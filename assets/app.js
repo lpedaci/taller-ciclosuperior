@@ -346,10 +346,40 @@
           $$('input[name="' + car + "-" + q + '"]', escala).forEach(function (r) { r.checked = r.value === d[q]; });
         });
       });
+      syncLocks();
       verdict();
     };
-    escala.addEventListener("input", function () { saveEscala(); verdict(); });
-    escala.addEventListener("change", function () { saveEscala(); verdict(); });
+    /* Un mismo valor no puede quedar en las dos carreras para la misma pregunta:
+       lo que elige una, la otra no lo puede usar hasta que se libere */
+    var other = { a: "b", b: "a" };
+    var syncLocks = function () {
+      ["a", "b"].forEach(function (car) {
+        ["q1", "q2"].forEach(function (q) {
+          var taken = $('input[name="' + other[car] + "-" + q + '"]:checked', escala);
+          $$('input[name="' + car + "-" + q + '"]', escala).forEach(function (r) {
+            r.disabled = !!taken && r.value === taken.value;
+            r.parentNode.classList.toggle("is-taken", r.disabled);
+          });
+        });
+      });
+    };
+    var update = function () { syncLocks(); saveEscala(); verdict(); };
+    /* Tocar de nuevo el número elegido lo deselecciona y lo deja libre para la otra carrera */
+    var radioFrom = function (e) { var l = e.target.closest(".escala-n"); return l && $("input", l); };
+    escala.addEventListener("pointerdown", function (e) { var r = radioFrom(e); if (r) r._was = r.checked; });
+    escala.addEventListener("click", function (e) {
+      var r = radioFrom(e);
+      if (!r || e.target !== r) return;
+      var was = r._was; r._was = false;
+      if (was) { r.checked = false; update(); }
+    });
+    escala.addEventListener("keydown", function (e) {
+      if ((e.key === "Delete" || e.key === "Backspace") && e.target.type === "radio" && e.target.checked) {
+        e.target.checked = false; update(); e.preventDefault();
+      }
+    });
+    escala.addEventListener("input", update);
+    escala.addEventListener("change", update);
     $("#escala-reset").addEventListener("click", function () { state.escala = {}; save(state); window.__escalaLoad(); announce("Escala borrada."); });
     window.__escalaLoad();
   }

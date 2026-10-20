@@ -2,3 +2,7 @@
 videos/*/.hyperframes/
 videos/*/renders/
 node_modules/
+
+# Configuración local de herramientas
+.claude/
+CLAUDE.local.md

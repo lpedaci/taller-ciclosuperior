@@ -1468,16 +1468,20 @@
 }
 
 /* Título del hero en azul */
+/* Azul de la paleta: un tono apagado para el título y un pastel (--t6) para los mosaicos */
 :root {
-  --hero-blue: #1d5fc4;
+  --hero-blue: #3d64a3;
+  --t6: #a9c9ee;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --hero-blue: #7fb2ff;
+    --hero-blue: #a9c4ec;
+    --t6: #8fb2df;
   }
 }
 :root[data-theme="dark"] {
-  --hero-blue: #7fb2ff;
+  --hero-blue: #a9c4ec;
+  --t6: #8fb2df;
 }
 .hero--cuaderno h1 {
   color: var(--hero-blue);
@@ -1491,10 +1495,63 @@
 
 /* Apartados especiales: programación (lavanda), psicología (menta), servidor (rosa) */
 .especial#programacion {
-  --ls: color-mix(in srgb, var(--t1) 24%, var(--surface));
-  --tile: var(--t1);
+  --ls: color-mix(in srgb, var(--t6) 26%, var(--surface));
+  --tile: var(--t6);
 }
 .especial-card--prog {
-  --tile: var(--t1);
-  background: var(--t1);
+  --tile: var(--t6);
+  background: var(--t6);
+}
+
+/* Los tres apartados especiales en una misma fila */
+.especiales {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+.especiales .especial-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "ic go" "copy copy";
+  align-items: start;
+  margin: 0;
+}
+.especiales .especial-card .stop-ic {
+  grid-area: ic;
+}
+.especiales .especial-card .linea-go {
+  grid-area: go;
+  justify-self: end;
+}
+.especiales .especial-copy {
+  grid-area: copy;
+}
+@media (max-width: 899px) {
+  .especiales {
+    grid-template-columns: 1fr;
+  }
+  .especiales .especial-card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "ic copy go";
+    align-items: center;
+  }
+}
+@media (max-width: 559px) {
+  .especiales .especial-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "copy go";
+  }
+}
+
+/* Escala: un valor elegido en una carrera queda tomado para la otra en la misma pregunta */
+.escala-n input:disabled {
+  cursor: not-allowed;
+}
+.escala-n input:disabled + span {
+  border-style: dashed;
+  color: var(--muted);
+  opacity: 0.4;
+}
+.escala-n.is-taken:hover span {
+  transform: none;
 }
