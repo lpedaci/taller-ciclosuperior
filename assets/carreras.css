@@ -1643,3 +1643,11 @@
     margin-top: 0.5rem;
   }
 }
+
+/* Mapa: aire entre la línea 2, los apartados especiales y las tres ideas */
+.mapa .metro-line.line-2 {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+.mapa .especiales {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
