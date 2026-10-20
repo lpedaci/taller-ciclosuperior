@@ -1466,3 +1466,35 @@
 .hero--cuaderno .cq-tag {
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--on-deep) 18%, transparent), 0 14px 22px -16px rgba(31, 31, 36, 0.6);
 }
+
+/* Título del hero en azul */
+:root {
+  --hero-blue: #1d5fc4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hero-blue: #7fb2ff;
+  }
+}
+:root[data-theme="dark"] {
+  --hero-blue: #7fb2ff;
+}
+.hero--cuaderno h1 {
+  color: var(--hero-blue);
+}
+
+/* Animaciones: un poco más chicas y centradas en la parada */
+.station .mg {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+/* Apartados especiales: programación (lavanda), psicología (menta), servidor (rosa) */
+.especial#programacion {
+  --ls: color-mix(in srgb, var(--t1) 24%, var(--surface));
+  --tile: var(--t1);
+}
+.especial-card--prog {
+  --tile: var(--t1);
+  background: var(--t1);
+}

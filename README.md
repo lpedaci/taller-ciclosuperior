@@ -1,12 +1,13 @@
 # Charla de carreras 2027
 
-Sitio web estático de una sola página que acompaña la charla de carreras para estudiantes de 6to año de escuela técnica, modalidad Informática. El contenido se organiza como un mapa de recorrido: dos líneas y doce paradas, cada una con una idea clave, ejemplos, figuras y una actividad.
+Sitio web estático de una sola página que acompaña la charla de carreras para estudiantes de 6to año de escuela técnica, modalidad Informática. El contenido se organiza como un mapa de recorrido: dos líneas, diez paradas y tres apartados especiales, cada una con una idea clave, ejemplos, figuras y una actividad.
 
 Comparte el diseño del sitio [Del aula al primer trabajo](https://lpedaci.github.io/taller-primerempleo/): mismos tokens de color, tipografías, componentes y animaciones. Está desarrollado con HTML, CSS y JavaScript, sin frameworks ni proceso de compilación.
 
 ## Características
 
 - **Avance del estudiante:** cada parada se marca como recorrida y el progreso se guarda en `localStorage`, junto con la lista final y la escala de intención.
+- **Año de ingreso automático:** la solapa del cuaderno muestra el año siguiente al actual.
 - **Inscripciones con fecha de hoy:** las tarjetas de cada institución muestran si la inscripción está abierta, por abrir o cerrada, y el calendario del ingreso marca el día actual.
 - **Escala sin el 7:** herramienta para puntuar dos carreras del 1 al 10 sin la opción tibia.
 - **Plantilla para copiar:** comparación de dos planes de estudio, con copia al portapapeles.
@@ -30,13 +31,11 @@ Contenido: Prof. Lourdes Pedaci, a partir de la charla de carreras 2025, actuali
 5. Tipos de titulaciones posibles
 6. Cómo leer y comparar planes de estudio
 7. La particularidad de la ingeniería
-8. La particularidad de la programación
-9. La particularidad de la psicología
-10. Qué pide el mercado hoy
-11. Entonces… ¿qué camino tomar?
-12. En síntesis
+8. Qué pide el mercado hoy
+9. Entonces… ¿qué camino tomar?
+10. En síntesis
 
-Fuera del recorrido está el servidor de Lourdes, con cursos gratuitos y materiales. Al final están las referencias en formato APA 7.
+Fuera del recorrido hay tres apartados especiales: la particularidad de la programación, la particularidad de la psicología y el servidor de Lourdes, con cursos gratuitos y materiales. Al final están las referencias en formato APA 7.
 
 ## Estructura de archivos
 

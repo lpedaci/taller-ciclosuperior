@@ -15,11 +15,15 @@
   state.stations = state.stations || {};
   state.checks = state.checks || {};
   state.escala = state.escala || {};
-  /* Versión 2: se sumó la parada "Qué pide el mercado" como 10; las dos siguientes pasan a 11 y 12 */
-  if (!state.v) {
-    var old10 = !!state.stations.p10, old11 = !!state.stations.p11;
-    state.stations.p12 = old11; state.stations.p11 = old10; state.stations.p10 = false;
-    state.v = 2; save(state);
+  /* Versión 3: programación y psicología pasaron a apartados especiales.
+     Mercado, camino y síntesis quedan como paradas 8, 9 y 10. Sin versión: 10 era camino y 11 síntesis. */
+  if (state.v !== 3) {
+    var st = state.stations, m = state.v === 2 ? { p10: "p8", p11: "p9", p12: "p10" } : { p10: "p9", p11: "p10" }, next = {};
+    Object.keys(st).forEach(function (k) {
+      if (m[k]) next[m[k]] = st[k];
+      else if (+k.slice(1) < 8) next[k] = st[k];
+    });
+    state.stations = next; state.v = 3; save(state);
   }
   var live = $("#live");
   function announce(msg) { if (live) live.textContent = msg; }
@@ -53,6 +57,11 @@
     syncThemeBtn();
     syncFigures();
   });
+
+  /* ---------- Año de ingreso en la solapa del cuaderno ----------
+     La charla es para 6to año: quien la escucha este año empieza a estudiar el año que viene. */
+  var yearTab = $("#cq-year");
+  if (yearTab) yearTab.textContent = String(new Date().getFullYear() + 1);
 
   /* ---------- Paradas recorridas ---------- */
   var stationBoxes = $$("input[data-station]");
@@ -124,7 +133,7 @@
   var reset = $("#reset");
   if (reset) reset.addEventListener("click", function () {
     if (!confirm("¿Borrar las paradas marcadas, la lista final y tu escala?")) return;
-    state = { stations: {}, checks: {}, escala: {}, v: 2 }; save(state);
+    state = { stations: {}, checks: {}, escala: {}, v: 3 }; save(state);
     if (window.__escalaLoad) window.__escalaLoad();
     checks.forEach(function (b) { b.checked = false; });
     refresh(); refreshChecks();
@@ -227,7 +236,7 @@
   /* ---------- Una parada por vez ----------
      Se muestra solo la parada elegida (o Referencias). Se cambia con "Siguiente", con el panel
      de paradas, con el mapa o con cualquier enlace a #pN. Sin JavaScript se ve todo el contenido. */
-  var views = stations.concat($$("#servidor, #referencias"));
+  var views = stations.concat($$("#programacion, #psicologia, #servidor, #referencias"));
   var lineHeads = $$(".line-head");
   var main = $("#contenido");
   var currentView = null;
