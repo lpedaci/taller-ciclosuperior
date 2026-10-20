@@ -1411,3 +1411,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Animaciones a todo el ancho de la parada; la descripción queda para lectores de pantalla */
+.station .mg {
+  max-width: none;
+}
+.station .mg figcaption {
+  margin-top: 0.6rem;
+}
+
+/* Panel de paradas: el título "Línea 2" va antes de la primera parada de esa línea, sea cual sea */
+.rail-list li:nth-child(6)::before {
+  content: none;
+}
+.rail-list li.line-1 + li.line-2::before {
+  content: "Línea 2";
+  display: block;
+  margin: 1rem 0 0.3rem;
+  padding-inline: 0.6rem;
+  color: var(--lc);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

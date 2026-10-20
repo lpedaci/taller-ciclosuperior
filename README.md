@@ -1,6 +1,6 @@
 # Charla de carreras 2027
 
-Sitio web estático de una sola página que acompaña la charla de carreras para estudiantes de 6to año de escuela técnica, modalidad Informática. El contenido se organiza como un mapa de recorrido: dos líneas y once paradas, cada una con una idea clave, ejemplos, figuras y una actividad.
+Sitio web estático de una sola página que acompaña la charla de carreras para estudiantes de 6to año de escuela técnica, modalidad Informática. El contenido se organiza como un mapa de recorrido: dos líneas y doce paradas, cada una con una idea clave, ejemplos, figuras y una actividad.
 
 Comparte el diseño del sitio [Del aula al primer trabajo](https://lpedaci.github.io/taller-primerempleo/): mismos tokens de color, tipografías, componentes y animaciones. Está desarrollado con HTML, CSS y JavaScript, sin frameworks ni proceso de compilación.
 
@@ -12,7 +12,7 @@ Comparte el diseño del sitio [Del aula al primer trabajo](https://lpedaci.githu
 - **Plantilla para copiar:** comparación de dos planes de estudio, con copia al portapapeles.
 - **Tema claro y oscuro:** sigue la preferencia del sistema y permite cambiarlo a mano.
 - **Diseño adaptable y accesible:** HTML semántico, enlace para saltar al contenido, foco visible, tablas apiladas en móvil y respeto por la preferencia de movimiento reducido.
-- **Animaciones explicativas:** cinco composiciones HyperFrames incrustadas en vivo, que heredan el tema del sitio.
+- **Animaciones explicativas:** seis composiciones HyperFrames incrustadas en vivo, que heredan el tema del sitio.
 
 Contenido: Prof. Lourdes Pedaci, a partir de la charla de carreras 2025, actualizado en octubre de 2026 para el ingreso 2027.
 
@@ -32,8 +32,9 @@ Contenido: Prof. Lourdes Pedaci, a partir de la charla de carreras 2025, actuali
 7. La particularidad de la ingeniería
 8. La particularidad de la programación
 9. La particularidad de la psicología
-10. Entonces… ¿qué camino tomar?
-11. En síntesis
+10. Qué pide el mercado hoy
+11. Entonces… ¿qué camino tomar?
+12. En síntesis
 
 Fuera del recorrido está el servidor de Lourdes, con cursos gratuitos y materiales. Al final están las referencias en formato APA 7.
 
@@ -45,8 +46,8 @@ assets/styles.css      Design system compartido con el taller de primer empleo
 assets/carreras.css    Componentes propios: calendario, tarjetas, escala, notas adhesivas
 assets/app.js          Avance guardado, pestañas, estados de inscripción, escala, animaciones
 assets/fonts/          Outfit, Geist y Geist Mono
-assets/img/            Imagen para redes (og.png) y vista previa del servidor
-videos/<nombre>/       Composiciones HyperFrames: niveles, titulos, espectro, cliente, escala
+assets/img/            Imagen para redes (og.png), vista previa del servidor y logos/ de las universidades
+videos/<nombre>/       Composiciones HyperFrames: niveles, titulos, espectro, cliente, perfil, escala
 videos/_shared/        Base común de las composiciones (mg.css, mg-embed.js, gsap, fuentes)
 ```
 

@@ -15,6 +15,12 @@
   state.stations = state.stations || {};
   state.checks = state.checks || {};
   state.escala = state.escala || {};
+  /* Versión 2: se sumó la parada "Qué pide el mercado" como 10; las dos siguientes pasan a 11 y 12 */
+  if (!state.v) {
+    var old10 = !!state.stations.p10, old11 = !!state.stations.p11;
+    state.stations.p12 = old11; state.stations.p11 = old10; state.stations.p10 = false;
+    state.v = 2; save(state);
+  }
   var live = $("#live");
   function announce(msg) { if (live) live.textContent = msg; }
 
@@ -118,7 +124,7 @@
   var reset = $("#reset");
   if (reset) reset.addEventListener("click", function () {
     if (!confirm("¿Borrar las paradas marcadas, la lista final y tu escala?")) return;
-    state = { stations: {}, checks: {}, escala: {} }; save(state);
+    state = { stations: {}, checks: {}, escala: {}, v: 2 }; save(state);
     if (window.__escalaLoad) window.__escalaLoad();
     checks.forEach(function (b) { b.checked = false; });
     refresh(); refreshChecks();
