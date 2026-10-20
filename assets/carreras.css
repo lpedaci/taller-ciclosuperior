@@ -1555,3 +1555,99 @@
 .escala-n.is-taken:hover span {
   transform: none;
 }
+
+/* Tarjeta hacia el taller de primer empleo, antes del pie */
+.otro-taller {
+  margin-block: var(--sec) 1.25rem;
+}
+.taller-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "top top"
+    "title cta"
+    "txt cta";
+  gap: 0.4rem 1.5rem;
+  align-items: center;
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3.5vw, 2.5rem);
+  border-radius: var(--r-lg);
+  background: var(--t4);
+  color: var(--tile-ink);
+  text-decoration: none;
+  transition: transform 0.4s var(--ease);
+}
+.taller-card:hover {
+  transform: translateY(-3px);
+}
+.taller-card:active {
+  transform: scale(0.99);
+}
+.taller-top {
+  grid-area: top;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.taller-kicker {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.taller-pill {
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: var(--tile-chip);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+.taller-title {
+  grid-area: title;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.taller-txt {
+  grid-area: txt;
+  max-width: 52ch;
+  line-height: 1.5;
+}
+.taller-cta {
+  grid-area: cta;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.3rem;
+  border-radius: 999px;
+  background: var(--deep);
+  color: var(--on-deep);
+  font-family: var(--display);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.taller-card:hover .taller-cta {
+  background: var(--t3);
+  color: var(--tile-ink);
+}
+@media (max-width: 639px) {
+  .taller-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "top" "title" "txt" "cta";
+  }
+  .taller-cta {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Mapa: aire entre la línea 2, los apartados especiales y las tres ideas */
+.mapa .metro-line.line-2 {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+.mapa .especiales {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
