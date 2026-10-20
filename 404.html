@@ -46,7 +46,7 @@
     box-shadow: var(--shadow);
   }
   .lost-panel h1 {
-    color: var(--hero-blue);
+    color: var(--ink);
     font-size: clamp(2rem, 4.4vw, 3.2rem);
   }
   .lost-panel p {
@@ -66,8 +66,18 @@
     gap: 0.75rem;
     margin-top: 0.5rem;
   }
+  /* Barra superior: el título queda centrado; la columna derecha equilibra la del birrete */
   .top-in--simple {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .top-in--simple .brand {
+    justify-self: start;
+    width: 2.75rem;
+  }
+  .top-in--simple .top-now {
+    display: flex;
+    justify-content: center;
   }
   /* Gatito negro que duerme en el estante entre dos almohadones (los 4), con el ovillo (el 0) en la cola */
   .gato {
