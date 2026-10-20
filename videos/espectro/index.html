@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=900" />
+    <title>Del foco humano al foco tecno</title>
+    <link rel="stylesheet" href="mg.css" />
+    <script src="mg-embed.js"></script>
+    <script src="gsap.min.js"></script>
+    <style>
+      #title {
+        position: absolute;
+        left: 72px;
+        top: 48px;
+        font-size: 62px;
+      }
+      #sub {
+        position: absolute;
+        left: 72px;
+        top: 132px;
+        font-size: 30px;
+        color: var(--muted);
+      }
+      .blob {
+        position: absolute;
+        height: 300px;
+        border-radius: 150px;
+        background: color-mix(in srgb, var(--c) var(--mix), transparent);
+      }
+      :root {
+        --mix: 62%;
+      }
+      :root[data-theme="dark"] {
+        --mix: 84%;
+      }
+      #b-ux { left: 96px; top: 300px; width: 420px; --c: var(--t5); }
+      #b-ui { left: 300px; top: 340px; width: 420px; --c: var(--t1); }
+      #b-dev { left: 490px; top: 300px; width: 420px; --c: var(--t4); }
+      #b-ia { left: 680px; top: 340px; width: 440px; --c: var(--t3); }
+      .role {
+        position: absolute;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 1.05;
+        color: var(--tile-ink);
+        text-align: center;
+        transform: translateX(-50%);
+      }
+      #line {
+        position: absolute;
+        left: 110px;
+        top: 486px;
+        width: 980px;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--ink);
+      }
+      .head {
+        position: absolute;
+        top: 466px;
+        width: 0;
+        height: 0;
+        border-top: 24px solid transparent;
+        border-bottom: 24px solid transparent;
+      }
+      #h-l { left: 72px; border-right: 40px solid var(--ink); }
+      #h-r { left: 1088px; border-left: 40px solid var(--ink); }
+      .end {
+        position: absolute;
+        top: 230px;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .node {
+        position: absolute;
+        top: 430px;
+        width: 120px;
+        height: 120px;
+        margin-left: -60px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--bg);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.1;
+        box-shadow: 0 0 0 6px var(--bg);
+      }
+      #fs {
+        position: absolute;
+        left: 570px;
+        top: 700px;
+        width: 190px;
+        height: 30px;
+        border: 5px solid var(--l2);
+        border-top: 0;
+        border-radius: 0 0 16px 16px;
+      }
+      #fs-t {
+        position: absolute;
+        left: 665px;
+        top: 744px;
+        transform: translateX(-50%);
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        color: var(--l2);
+        white-space: nowrap;
+      }
+      #note {
+        position: absolute;
+        left: 72px;
+        top: 822px;
+        width: 1056px;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="espectro" data-start="0" data-duration="10" data-width="1200" data-height="900">
+      <div id="scene" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <div id="title" class="d">Del foco humano al foco tecno</div>
+        <div id="sub">Programar no es un solo trabajo: es un espectro de roles.</div>
+
+        <div class="blob" id="b-ux"></div>
+        <div class="blob" id="b-ui"></div>
+        <div class="blob" id="b-dev"></div>
+        <div class="blob" id="b-ia"></div>
+
+        <div class="end" style="left:72px">Foco humano</div>
+        <div class="end" style="left:1128px;transform:translateX(-100%)">Foco tecno</div>
+
+        <div id="line"></div>
+        <div class="head" id="h-l"></div>
+        <div class="head" id="h-r"></div>
+
+        <div class="node" style="left:200px">Investi-<br>gación</div>
+        <div class="node" style="left:390px">Diseño</div>
+        <div class="node" style="left:570px">Front-<br>end</div>
+        <div class="node" style="left:760px">Back-<br>end</div>
+        <div class="node" style="left:950px">Datos<br>e IA</div>
+
+        <div class="role" id="r-ux" style="left:270px;top:328px">Diseño UX</div>
+        <div class="role" id="r-ui" style="left:470px;top:578px">Diseño UI y<br>front-end</div>
+        <div class="role" id="r-dev" style="left:690px;top:328px">Desarrollo de<br>aplicaciones</div>
+        <div class="role" id="r-ia" style="left:930px;top:578px">Datos, IA<br>y nube</div>
+
+        <div id="fs"></div>
+        <div id="fs-t">Full stack = front + back</div>
+        <div id="note" class="d">No hace falta saber todo. Elegí por dónde entrar.</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.fromTo("#sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo("#line", { scaleX: 0, transformOrigin: "50% 50%" }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.8);
+      tl.fromTo("#h-l", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.4 }, 1.4);
+      tl.fromTo("#h-r", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4 }, 1.4);
+      tl.fromTo(".end", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.15 }, 1.6);
+      tl.fromTo(".node", { scale: 0 }, { scale: 1, duration: 0.45, stagger: 0.18, ease: "back.out(2)" }, 2.0);
+      [["#b-ux", "#r-ux"], ["#b-ui", "#r-ui"], ["#b-dev", "#r-dev"], ["#b-ia", "#r-ia"]].forEach(function (p, i) {
+        const t = 3.3 + i * 0.75;
+        tl.fromTo(p[0], { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, t);
+        tl.fromTo(p[1], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35 }, t + 0.25);
+      });
+      tl.fromTo("#fs", { scaleX: 0, transformOrigin: "50% 0%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 6.6);
+      tl.fromTo("#fs-t", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 6.9);
+      tl.fromTo("#note", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45 }, 7.8);
+
+      window.__timelines["espectro"] = tl;
+      tl.seek(0);
+      if (window.__mgBridge) window.__mgBridge("espectro", tl);
+    </script>
+  </body>
+</html>

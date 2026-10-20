@@ -1,0 +1,422 @@
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var KEY = "charla-carreras-v1";
+  var THEME_KEY = "charla-carreras-tema";
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+  function load() { try { var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+
+  var state = load();
+  state.stations = state.stations || {};
+  state.checks = state.checks || {};
+  state.escala = state.escala || {};
+  var live = $("#live");
+  function announce(msg) { if (live) live.textContent = msg; }
+
+  /* ---------- Tema claro / oscuro ---------- */
+  function currentTheme() {
+    return root.getAttribute("data-theme") || (darkScheme.matches ? "dark" : "light");
+  }
+  /* Colores ya resueltos del tema activo, para pasarlos a las animaciones */
+  function themeVars() {
+    var probe = document.createElement("i"), out = {};
+    probe.style.display = "none"; document.body.appendChild(probe);
+    ["bg", "surface", "ink", "muted", "rule", "l1", "l1-soft", "l2", "l2-soft", "on-line", "yes", "no", "t1", "t2", "t3", "t4", "t5", "tile-ink"].forEach(function (name) {
+      probe.style.color = "var(--" + name + ")";
+      out["--" + name] = getComputedStyle(probe).color;
+    });
+    document.body.removeChild(probe);
+    return out;
+  }
+  function syncFigures() {
+    figures.forEach(function (f) { f.send({ cmd: "theme", value: currentTheme() }); f.send({ cmd: "vars", value: themeVars() }); });
+  }
+  var themeBtn = $("#theme-btn");
+  function syncThemeBtn() {
+    if (themeBtn) themeBtn.setAttribute("aria-label", currentTheme() === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  }
+  if (themeBtn) themeBtn.addEventListener("click", function () {
+    var next = currentTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    syncThemeBtn();
+    syncFigures();
+  });
+
+  /* ---------- Paradas recorridas ---------- */
+  var stationBoxes = $$("input[data-station]");
+  var total = stationBoxes.length;
+  var lastId = stationBoxes[total - 1].getAttribute("data-station");
+  var cta = $("#cta-start");
+  var nextStop = $("#next-stop"), nextLabel = $("#next-label");
+  /* Nombre corto de una parada, tomado del mapa (sin los textos para lector de pantalla) */
+  function stopName(id) {
+    var el = $('.metro a[data-stop="' + id + '"] .stop-name');
+    return Array.prototype.filter.call(el.childNodes, function (c) { return c.nodeType === 3; })
+      .map(function (c) { return c.textContent; }).join("").trim();
+  }
+  function refresh(popId) {
+    var n = 0, firstPending = null;
+    stationBoxes.forEach(function (b) {
+      var id = b.getAttribute("data-station"), done = !!state.stations[id];
+      b.checked = done;
+      if (done) n++; else if (!firstPending) firstPending = id;
+      $$('[data-stop="' + id + '"]').forEach(function (el) {
+        el.classList.toggle("is-done", done);
+        var sr = $(".stop-state", el);
+        if (sr) sr.textContent = done ? " (recorrida)" : "";
+        if (done && id === popId) {
+          var dot = $(".dot", el);
+          if (dot) { dot.classList.remove("is-pop"); void dot.offsetWidth; dot.classList.add("is-pop"); }
+        }
+      });
+    });
+    $$(".done-count").forEach(function (el) { el.textContent = String(n); });
+    root.style.setProperty("--done", (n / total).toFixed(3));
+    if (nextStop) {
+      nextLabel.textContent = firstPending ? "Próxima parada" : "Recorrido completo";
+      nextStop.href = "#" + (firstPending || lastId);
+      nextStop.textContent = firstPending ? stopName(firstPending) : "Repasar tu plan";
+    }
+    if (cta && n > 0) {
+      if (firstPending) {
+        cta.href = "#" + firstPending;
+        $("span", cta).textContent = "Seguir en la parada " + firstPending.slice(1);
+      } else {
+        cta.href = "#" + lastId;
+        $("span", cta).textContent = "Repasar tu plan";
+      }
+    }
+    return n;
+  }
+  stationBoxes.forEach(function (b) {
+    b.addEventListener("change", function () {
+      var id = b.getAttribute("data-station");
+      state.stations[id] = b.checked; save(state);
+      var n = refresh(id);
+      announce(b.checked ? "Parada " + id.slice(1) + " recorrida. Llevás " + n + " de " + total + "." : "Parada " + id.slice(1) + " desmarcada.");
+    });
+  });
+
+  /* ---------- Plan de 30 días ---------- */
+  var checks = $$("input[data-check]");
+  var checkCount = $("#check-count");
+  function refreshChecks() {
+    var n = checks.filter(function (b) { return b.checked; }).length;
+    if (checkCount) checkCount.textContent = n + " de " + checks.length + " tareas hechas";
+  }
+  checks.forEach(function (b) {
+    var id = b.getAttribute("data-check");
+    b.checked = !!state.checks[id];
+    b.addEventListener("change", function () { state.checks[id] = b.checked; save(state); refreshChecks(); });
+  });
+  var reset = $("#reset");
+  if (reset) reset.addEventListener("click", function () {
+    if (!confirm("¿Borrar las paradas marcadas, la lista final y tu escala?")) return;
+    state = { stations: {}, checks: {}, escala: {} }; save(state);
+    if (window.__escalaLoad) window.__escalaLoad();
+    checks.forEach(function (b) { b.checked = false; });
+    refresh(); refreshChecks();
+    announce("Avance borrado.");
+  });
+  refresh(); refreshChecks();
+
+  /* ---------- Copiar plantillas ---------- */
+  function fallbackCopy(t) {
+    var a = document.createElement("textarea"); a.value = t; a.setAttribute("readonly", "");
+    a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select();
+    var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(a); return ok;
+  }
+  /* Confirmación común a todos los botones de copiar: "Copiada" en el botón y aviso a lectores de pantalla */
+  function copyFeedback(btn, ok) {
+    var label = $("span", btn), text = btn.getAttribute("data-label") || label.textContent;
+    btn.setAttribute("data-label", text);
+    label.textContent = ok ? "Copiada" : "No se pudo copiar"; btn.classList.toggle("is-copied", ok);
+    announce(ok ? "Plantilla copiada al portapapeles." : "No se pudo copiar la plantilla.");
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () { label.textContent = text; btn.classList.remove("is-copied"); }, 1800);
+  }
+  function copyText(btn, t) {
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(function () { copyFeedback(btn, true); }, function () { copyFeedback(btn, fallbackCopy(t)); });
+    else copyFeedback(btn, fallbackCopy(t));
+  }
+  $$("button.copy[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-copy")); if (!el) return;
+      copyText(btn, el.textContent);
+    });
+  });
+
+  /* ---------- Pestañas de los tipos de títulos ---------- */
+  var tabs = $$('[role="tab"]');
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      var j = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+      if (j === null) return;
+      j = (j + tabs.length) % tabs.length; select(tabs[j]); tabs[j].focus(); e.preventDefault();
+    });
+  });
+
+  /* ---------- Tablas apiladas en pantallas chicas ---------- */
+  $$(".table-wrap table").forEach(function (table) {
+    var heads = $$("thead th", table).map(function (th) { return th.textContent.trim(); });
+    if (!heads.length) return;
+    table.setAttribute("role", "table");
+    $$("tr", table).forEach(function (tr) { tr.setAttribute("role", "row"); });
+    $$("thead th", table).forEach(function (th) { th.setAttribute("role", "columnheader"); });
+    $$("tbody tr", table).forEach(function (tr) {
+      Array.prototype.forEach.call(tr.children, function (cell, i) {
+        cell.setAttribute("role", cell.tagName === "TH" ? "rowheader" : "cell");
+        if (i > 0 && heads[i]) cell.setAttribute("data-label", heads[i]);
+      });
+    });
+    table.classList.add("is-stacked");
+  });
+
+  /* ---------- Riel: parada actual y avance ---------- */
+  var stations = $$("section.station:not(.especial)");
+  var railLinks = $$(".rail-list a, .rail-extra a");
+  function setCurrent(id) {
+    railLinks.forEach(function (a) {
+      var on = a.getAttribute("href") === "#" + id;
+      a.classList.toggle("is-current", on);
+      if (on) a.setAttribute("aria-current", "step");
+      else a.removeAttribute("aria-current");
+    });
+  }
+  /* Título de la barra superior: muestra el apartado que se está leyendo */
+  var topNow = $("#top-now"), nowTag = $(".now-tag", topNow), nowTitle = $(".now-title", topNow), nowTimer;
+  function setNow(section) {
+    var isStation = section.classList.contains("station") && !section.hasAttribute("data-now");
+    var tag = isStation ? "Parada " + section.id.slice(1) : "";
+    var title = isStation ? $("h3", section).textContent : section.getAttribute("data-now");
+    if (nowTitle.textContent === title) return;
+    function apply() {
+      nowTag.textContent = tag;
+      nowTitle.textContent = title;
+      topNow.classList.toggle("line-1", section.classList.contains("line-1"));
+      topNow.classList.toggle("line-2", section.classList.contains("line-2"));
+      topNow.classList.remove("is-out");
+    }
+    clearTimeout(nowTimer);
+    if (reduceMotion.matches) return apply();
+    topNow.classList.add("is-out");
+    nowTimer = setTimeout(apply, 160);
+  }
+  /* ---------- Una parada por vez ----------
+     Se muestra solo la parada elegida (o Referencias). Se cambia con "Siguiente", con el panel
+     de paradas, con el mapa o con cualquier enlace a #pN. Sin JavaScript se ve todo el contenido. */
+  var views = stations.concat($$("#servidor, #referencias"));
+  var lineHeads = $$(".line-head");
+  var main = $("#contenido");
+  var currentView = null;
+  function viewFor(hash) {
+    var id = (hash || "").slice(1);
+    return views.filter(function (v) { return v.id === id; })[0] || null;
+  }
+  function show(view, jump) {
+    currentView = view;
+    views.forEach(function (v) { v.hidden = v !== view; });
+    lineHeads.forEach(function (h) {
+      h.hidden = !["line-1", "line-2"].some(function (c) { return h.classList.contains(c) && view.classList.contains(c); });
+    });
+    setCurrent(view.id);
+    if (!jump) return;
+    setNow(view);
+    view.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+    var title = $("h3, h2", view);
+    if (title) { title.tabIndex = -1; title.focus({ preventScroll: true }); }
+  }
+  window.addEventListener("hashchange", function () {
+    var view = viewFor(location.hash);
+    if (view) show(view, true);
+  });
+  /* Sin #destino en la dirección, abre en la primera parada sin recorrer */
+  var first = viewFor(location.hash);
+  var pending = stations.filter(function (s) { return !state.stations[s.id]; })[0];
+  show(first || pending || stations[0], !!first);
+
+  if ("IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) setNow(e.target === main ? currentView : e.target);
+      });
+    }, { rootMargin: "-20% 0px -55% 0px" });
+    $$(".hero, .mapa").concat([main]).forEach(function (el) { spy.observe(el); });
+  }
+
+  /* ---------- Inscripciones: estado según la fecha de hoy ----------
+     Cada etiqueta .status trae la fecha de apertura y de cierre. Sin JavaScript queda el texto con las fechas. */
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  function parseDay(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function dm(d) { return d.getDate() + "/" + (d.getMonth() + 1); }
+  $$(".status[data-open][data-close]").forEach(function (el) {
+    var a = parseDay(el.getAttribute("data-open")), b = parseDay(el.getAttribute("data-close"));
+    var tbc = el.hasAttribute("data-tbc");
+    var state = today < a ? "soon" : today > b ? "closed" : "open";
+    el.classList.add("status--" + state);
+    if (tbc && state !== "closed") return;
+    el.textContent = state === "open" ? "Abierta hasta el " + dm(b) : state === "soon" ? "Abre el " + dm(a) : "Cerrada";
+  });
+
+  /* Calendario del ingreso: línea de "hoy" si la fecha cae dentro del período que muestra */
+  var cal = $(".cal"), calToday = $("#cal-today");
+  if (cal && calToday) {
+    var c0 = parseDay(cal.getAttribute("data-start")), c1 = parseDay(cal.getAttribute("data-end"));
+    if (today >= c0 && today <= c1) {
+      calToday.style.setProperty("--x-n", ((today - c0) / (c1 - c0)).toFixed(4));
+      calToday.hidden = false;
+    }
+  }
+
+  /* ---------- Escala sin el 7 ----------
+     Dos carreras, dos preguntas cada una. Se guarda en el mismo avance del navegador. */
+  var escala = $("#escala");
+  if (escala) {
+    var out = $("#escala-out");
+    var fmt = function (n) { return String(Math.round(n * 10) / 10).replace(".", ","); };
+    var readCar = function (car) {
+      var name = $("#car-" + car).value.trim();
+      var q1 = $('input[name="' + car + '-q1"]:checked', escala), q2 = $('input[name="' + car + '-q2"]:checked', escala);
+      return { car: car.toUpperCase(), name: name || "Carrera " + car.toUpperCase(), score: q1 && q2 ? (+q1.value + +q2.value) / 2 : null };
+    };
+    var verdict = function () {
+      var a = readCar("a"), b = readCar("b");
+      if (a.score === null && b.score === null) { out.textContent = "Escribí dos carreras y puntuá las dos preguntas para cada una."; return; }
+      if (a.score === null || b.score === null) {
+        var done = a.score === null ? b : a;
+        out.textContent = done.name + ": " + fmt(done.score) + ". Ahora puntuá la otra carrera.";
+        return;
+      }
+      var hi = a.score >= b.score ? a : b, lo = hi === a ? b : a;
+      var txt = a.name + ": " + fmt(a.score) + ". " + b.name + ": " + fmt(b.score) + ". ";
+      if (a.score === b.score) txt += "Empate: buscá una tercera pregunta que las separe, como cuál te imaginás cursando un martes a la noche.";
+      else if (hi.score >= 8 && lo.score <= 6) txt += "Hoy tu intención está clara: " + hi.name + ".";
+      else if (hi.score < 6) txt += "Ninguna de las dos te entusiasma mucho todavía. Puede ser buen momento para probar un curso corto antes de decidir.";
+      else txt += hi.name + " va adelante, pero por poco. Compará sus planes de estudio (parada 6) antes de decidir.";
+      out.textContent = txt;
+    };
+    var saveEscala = function () {
+      var d = {};
+      ["a", "b"].forEach(function (car) {
+        d[car] = { name: $("#car-" + car).value };
+        ["q1", "q2"].forEach(function (q) { var r = $('input[name="' + car + "-" + q + '"]:checked', escala); d[car][q] = r ? r.value : ""; });
+      });
+      state.escala = d; save(state);
+    };
+    window.__escalaLoad = function () {
+      ["a", "b"].forEach(function (car) {
+        var d = (state.escala || {})[car] || {};
+        $("#car-" + car).value = d.name || "";
+        ["q1", "q2"].forEach(function (q) {
+          $$('input[name="' + car + "-" + q + '"]', escala).forEach(function (r) { r.checked = r.value === d[q]; });
+        });
+      });
+      verdict();
+    };
+    escala.addEventListener("input", function () { saveEscala(); verdict(); });
+    escala.addEventListener("change", function () { saveEscala(); verdict(); });
+    $("#escala-reset").addEventListener("click", function () { state.escala = {}; save(state); window.__escalaLoad(); announce("Escala borrada."); });
+    window.__escalaLoad();
+  }
+
+  /* ---------- Menú de paradas en pantallas chicas ---------- */
+  var menuBtn = $("#menu-btn"), rail = $("#rail");
+  function setMenu(open) {
+    rail.classList.toggle("is-open", open);
+    menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  if (menuBtn && rail) {
+    menuBtn.addEventListener("click", function () { setMenu(!rail.classList.contains("is-open")); });
+    rail.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && rail.classList.contains("is-open")) { setMenu(false); menuBtn.focus(); }
+    });
+  }
+
+  /* ---------- Entrada de bloques al hacer scroll ---------- */
+  $$(".line-head, .station-head, .station .key, .station .mg, .activity, .metro-name, .station .cal, .flow, .board .postit, .notebook, .escala").forEach(function (el) { el.classList.add("reveal"); });
+  $$(".facts, .metro, .howto, .tiles, .stack, .plan-anatomy, .inst, .flow").forEach(function (group) {
+    Array.prototype.forEach.call(group.children, function (el, i) { el.classList.add("reveal"); el.style.setProperty("--i", i); });
+  });
+  var revealEls = $$(".reveal");
+  if ("IntersectionObserver" in window && !reduceMotion.matches) {
+    var revealer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-in"); revealer.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    revealEls.forEach(function (el) { revealer.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- Animaciones HyperFrames (iframes con la composición viva) ---------- */
+  var figures = $$("figure.mg").map(function (fig) {
+    var id = fig.getAttribute("data-mg");
+    var frame = $(".mg-frame", fig), iframe = $("iframe", fig), btn = $(".mg-btn", fig), label = btn && $(".mg-label", btn);
+    var f = { id: id, fig: fig, ready: false, started: false, visible: false, state: "idle" };
+    f.send = function (msg) { msg.mg = id; if (f.ready) iframe.contentWindow.postMessage(msg, "*"); };
+    f.set = function (s) {
+      f.state = s; fig.setAttribute("data-state", s);
+      if (label) label.textContent = s === "playing" ? "Pausar" : s === "ended" ? "Ver de nuevo" : "Reproducir";
+    };
+    f.auto = function () {
+      if (!f.ready || f.started || !f.visible) return;
+      f.started = true;
+      f.send({ cmd: reduceMotion.matches ? "end" : "play" });
+    };
+    function fit() { frame.style.setProperty("--s", (frame.clientWidth / 1200).toFixed(4)); }
+    fit();
+    if ("ResizeObserver" in window) new ResizeObserver(fit).observe(frame); else window.addEventListener("resize", fit);
+    if (btn) btn.addEventListener("click", function () { f.started = true; f.resume = false; f.send({ cmd: f.state === "playing" ? "pause" : "play" }); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !iframe.src) iframe.src = iframe.getAttribute("data-src") + "&theme=" + currentTheme();
+        });
+      }, { rootMargin: "400px 0px" }).observe(fig);
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          f.visible = e.isIntersecting;
+          if (!f.visible && f.state === "playing") { f.resume = true; f.send({ cmd: "pause" }); }
+          else if (f.visible && f.resume) { f.resume = false; f.send({ cmd: "play" }); }
+          else if (f.visible) f.auto();
+        });
+      }, { threshold: 0.55 }).observe(frame);
+    } else {
+      iframe.src = iframe.getAttribute("data-src") + "&theme=" + currentTheme();
+    }
+    f.set("idle");
+    return f;
+  });
+  window.addEventListener("message", function (e) {
+    var d = e.data || {};
+    figures.forEach(function (f) {
+      if (d.mg !== f.id) return;
+      if (d.state === "ready") { f.ready = true; f.fig.setAttribute("data-ready", ""); f.send({ cmd: "vars", value: themeVars() }); f.auto(); }
+      else f.set(d.state);
+    });
+  });
+  darkScheme.addEventListener("change", function () {
+    syncThemeBtn();
+    syncFigures();
+  });
+  syncThemeBtn();
+})();

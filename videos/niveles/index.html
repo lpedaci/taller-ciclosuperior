@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=900" />
+    <title>Los cuatro niveles</title>
+    <link rel="stylesheet" href="mg.css" />
+    <script src="mg-embed.js"></script>
+    <script src="gsap.min.js"></script>
+    <style>
+      #title {
+        position: absolute;
+        left: 72px;
+        top: 48px;
+        font-size: 66px;
+      }
+      #sub {
+        position: absolute;
+        left: 72px;
+        top: 136px;
+        font-size: 32px;
+        color: var(--muted);
+      }
+      /* Eje de edades: 0 a 26 años en 1056px */
+      #axis {
+        position: absolute;
+        left: 72px;
+        top: 700px;
+        width: 1056px;
+        height: 2px;
+        background: var(--rule);
+      }
+      .tick {
+        position: absolute;
+        top: 714px;
+        font-size: 26px;
+        color: var(--muted);
+        transform: translateX(-50%);
+      }
+      .lvl {
+        position: absolute;
+        height: 96px;
+        border-radius: 22px;
+        color: var(--tile-ink);
+        padding: 14px 18px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .lvl b {
+        display: block;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-size: 38px;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+      }
+      .lvl span {
+        font-size: 24px;
+      }
+      #l-ini { left: 72px; top: 560px; width: 236px; background: var(--t1); }
+      #l-pri { left: 316px; top: 450px; width: 284px; background: var(--t2); }
+      #l-sec { left: 600px; top: 340px; width: 244px; background: var(--t3); }
+      #l-sup { left: 803px; top: 230px; width: 325px; background: var(--t4); }
+      #obl {
+        position: absolute;
+        left: 235px;
+        top: 662px;
+        width: 609px;
+        height: 18px;
+        border-radius: 9px;
+        background: var(--l1);
+      }
+      #obl-t {
+        position: absolute;
+        left: 235px;
+        top: 768px;
+        font-size: 30px;
+      }
+      #obl-t i {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        background: var(--l1);
+        margin-right: 10px;
+        vertical-align: -2px;
+      }
+      #here {
+        position: absolute;
+        left: 844px;
+        top: 590px;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      #here .pin {
+        width: 36px;
+        height: 36px;
+        margin: 8px auto 0;
+        border-radius: 50%;
+        background: var(--l2);
+        box-shadow: 0 0 0 10px var(--l2-soft);
+      }
+      #here .lab {
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        color: var(--l2);
+      }
+      #note {
+        position: absolute;
+        left: 72px;
+        top: 826px;
+        width: 1056px;
+        font-size: 30px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="niveles" data-start="0" data-duration="9" data-width="1200" data-height="900">
+      <div id="scene" class="clip" data-start="0" data-duration="9" data-track-index="0">
+        <div id="title" class="d">Los cuatro niveles</div>
+        <div id="sub">Cada escalón se apoya en el anterior.</div>
+
+        <div class="lvl" id="l-ini"><b>Inicial</b><span>45 días a 5 años</span></div>
+        <div class="lvl" id="l-pri"><b>Primaria</b><span>6 a 12 años</span></div>
+        <div class="lvl" id="l-sec"><b>Secundaria</b><span>13 a 19 años</span></div>
+        <div class="lvl" id="l-sup"><b>Superior</b><span>desde los 18</span></div>
+
+        <div id="obl"></div>
+        <div id="axis"></div>
+        <div class="tick" style="left:72px">0</div>
+        <div class="tick" style="left:235px">4</div>
+        <div class="tick" style="left:316px">6</div>
+        <div class="tick" style="left:600px">13</div>
+        <div class="tick" style="left:844px">19</div>
+        <div class="tick" style="left:1128px">26</div>
+
+        <div id="here"><div class="lab">Vos, hoy</div><div class="pin"></div></div>
+        <div id="obl-t"><i></i>Obligatoria: desde la sala de 4 hasta terminar la secundaria</div>
+        <div id="note">La técnica suma un año: por eso terminás a los 18 o 19.</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.fromTo("#sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo("#axis", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.6);
+      tl.fromTo(".tick", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.06 }, 1.0);
+      ["#l-ini", "#l-pri", "#l-sec", "#l-sup"].forEach(function (id, i) {
+        const t = 1.5 + i * 0.75;
+        tl.fromTo(id, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.55, ease: "power3.out" }, t);
+        tl.fromTo(id + " b, " + id + " span", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.08, ease: "power3.out" }, t + 0.3);
+      });
+      tl.fromTo("#obl", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 1.1, ease: "power2.inOut" }, 4.9);
+      tl.fromTo("#obl-t", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 }, 5.5);
+      tl.fromTo("#here", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)" }, 6.3);
+      tl.fromTo("#here .pin", { scale: 0.6 }, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.4)" }, 6.5);
+      tl.fromTo("#note", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, 7.3);
+
+      window.__timelines["niveles"] = tl;
+      tl.seek(0);
+      if (window.__mgBridge) window.__mgBridge("niveles", tl);
+    </script>
+  </body>
+</html>

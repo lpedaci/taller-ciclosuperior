@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=900" />
+    <title>La escala sin el 7</title>
+    <link rel="stylesheet" href="mg.css" />
+    <script src="mg-embed.js"></script>
+    <script src="gsap.min.js"></script>
+    <style>
+      #title {
+        position: absolute;
+        left: 72px;
+        top: 48px;
+        font-size: 64px;
+      }
+      #sub {
+        position: absolute;
+        left: 72px;
+        top: 134px;
+        width: 1056px;
+        font-size: 30px;
+        color: var(--muted);
+      }
+      .ask {
+        position: absolute;
+        top: 236px;
+        width: 500px;
+        padding: 22px 18px;
+        border-radius: 28px;
+        background: var(--l1-soft);
+        color: var(--ink);
+        font-size: 29px;
+        font-style: italic;
+        text-align: center;
+      }
+      #ask-1 { left: 72px; }
+      #ask-2 { left: 628px; }
+      #track {
+        position: absolute;
+        left: 120px;
+        top: 488px;
+        width: 960px;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--l1);
+        opacity: 0.4;
+      }
+      .n {
+        position: absolute;
+        top: 451px;
+        width: 80px;
+        height: 80px;
+        margin-left: -40px;
+        border-radius: 50%;
+        border: 4px solid var(--l1);
+        background: var(--surface);
+        display: grid;
+        place-items: center;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+      }
+      #n6, #n8 {
+        top: 431px;
+        width: 120px;
+        height: 120px;
+        margin-left: -60px;
+        font-size: 46px;
+      }
+      #n6 { border-color: var(--yes); }
+      #n8 { border-color: var(--l2); }
+      #x {
+        position: absolute;
+        left: 760px;
+        top: 438px;
+        width: 108px;
+        height: 108px;
+        margin-left: -54px;
+      }
+      #x i {
+        position: absolute;
+        left: 46px;
+        top: -6px;
+        width: 16px;
+        height: 120px;
+        border-radius: 8px;
+        background: var(--no);
+      }
+      #x i:first-child { transform: rotate(45deg); }
+      #x i:last-child { transform: rotate(-45deg); }
+      .car {
+        position: absolute;
+        top: 612px;
+        width: 190px;
+        margin-left: -95px;
+        padding: 16px;
+        border-radius: 22px;
+        text-align: center;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        color: var(--tile-ink);
+      }
+      #car-a { left: 653px; background: var(--t4); }
+      #car-b { left: 866.7px; background: var(--t2); }
+      #avoid {
+        position: absolute;
+        left: 760px;
+        top: 562px;
+        transform: translateX(-50%);
+        font-size: 26px;
+        color: var(--no);
+        font-weight: 700;
+        opacity: 0;
+      }
+      #note {
+        position: absolute;
+        left: 72px;
+        top: 760px;
+        width: 1056px;
+        font-size: 32px;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="escala" data-start="0" data-duration="10" data-width="1200" data-height="900">
+      <div id="scene" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <div id="title" class="d">La escala sin el 7</div>
+        <div id="sub">Puntuá cada carrera del 1 al 10. El 7 está prohibido.</div>
+        <div class="ask" id="ask-1">¿Cuánto me gustaría hacer esto?</div>
+        <div class="ask" id="ask-2">¿Qué tanto me veo haciéndolo?</div>
+
+        <div id="track"></div>
+        <div class="n" style="left:120px">1</div>
+        <div class="n" style="left:226.7px">2</div>
+        <div class="n" style="left:333.3px">3</div>
+        <div class="n" style="left:440px">4</div>
+        <div class="n" style="left:546.7px">5</div>
+        <div class="n" id="n6" style="left:653.3px">6</div>
+        <div class="n" id="n7" style="left:760px">7</div>
+        <div class="n" id="n8" style="left:866.7px">8</div>
+        <div class="n" style="left:973.3px">9</div>
+        <div class="n" style="left:1080px">10</div>
+        <div id="x"><i></i><i></i></div>
+
+        <div class="car" id="car-a">Carrera A</div>
+        <div class="car" id="car-b">Carrera B</div>
+        <div id="avoid">sin tibiezas</div>
+
+        <div id="note" class="d">El 7 es el “más o menos” cómodo. Sin él, tenés que decidir si una carrera te tira para abajo (6) o para arriba (8).</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.fromTo("#sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo(".ask", { opacity: 0, y: 20, rotation: -2 }, { opacity: 1, y: 0, rotation: 0, duration: 0.5, stagger: 0.25, ease: "back.out(1.8)" }, 0.9);
+      tl.fromTo("#track", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 1.6);
+      tl.fromTo(".n", { scale: 0 }, { scale: 1, duration: 0.35, stagger: 0.07, ease: "back.out(2)" }, 1.9);
+      tl.to("#n7", { scale: 1.2, duration: 0.25, yoyo: true, repeat: 1 }, 3.3);
+      tl.fromTo("#x i", { scaleY: 0 }, { scaleY: 1, duration: 0.25, stagger: 0.12, ease: "power3.out" }, 3.8);
+      tl.to("#n7", { opacity: 0.35, duration: 0.3 }, 4.0);
+      tl.to("#avoid", { opacity: 1, duration: 0.3 }, 4.2);
+      tl.fromTo("#car-a", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 4.8);
+      tl.to("#n6", { scale: 1.12, duration: 0.25, yoyo: true, repeat: 1 }, 5.3);
+      tl.fromTo("#car-b", { opacity: 0, x: -120 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 5.8);
+      tl.to("#n8", { scale: 1.12, duration: 0.25, yoyo: true, repeat: 1 }, 6.3);
+      tl.to("#avoid", { opacity: 0, duration: 0.2 }, 6.0);
+      tl.fromTo("#note", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, 7.0);
+
+      window.__timelines["escala"] = tl;
+      tl.seek(0);
+      if (window.__mgBridge) window.__mgBridge("escala", tl);
+    </script>
+  </body>
+</html>

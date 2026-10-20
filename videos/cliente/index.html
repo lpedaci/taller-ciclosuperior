@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=900" />
+    <title>Qué pasa cuando tocás un botón</title>
+    <link rel="stylesheet" href="mg.css" />
+    <script src="mg-embed.js"></script>
+    <script src="gsap.min.js"></script>
+    <style>
+      #title {
+        position: absolute;
+        left: 72px;
+        top: 48px;
+        font-size: 62px;
+      }
+      #sub {
+        position: absolute;
+        left: 72px;
+        top: 132px;
+        font-size: 30px;
+        color: var(--muted);
+      }
+      .zone {
+        position: absolute;
+        top: 220px;
+        height: 470px;
+        border-radius: 34px;
+        border: 3px dashed var(--c);
+      }
+      .zone-t {
+        position: absolute;
+        top: 236px;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        color: var(--c);
+      }
+      #z-front { left: 72px; width: 360px; --c: var(--l1); }
+      #z-back { left: 640px; width: 488px; --c: var(--l2); }
+      #zt-front { left: 104px; --c: var(--l1); }
+      #zt-back { left: 672px; --c: var(--l2); }
+      .box {
+        position: absolute;
+        border-radius: 22px;
+        background: var(--surface);
+        border: 3px solid var(--rule);
+        padding: 18px 22px;
+      }
+      .box b {
+        display: block;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-size: 34px;
+        letter-spacing: -0.02em;
+      }
+      .box span {
+        font-size: 24px;
+        color: var(--muted);
+      }
+      /* Pantalla del celular o navegador */
+      #phone {
+        left: 132px;
+        top: 300px;
+        width: 240px;
+        height: 340px;
+        border-radius: 36px;
+        text-align: center;
+      }
+      #btn {
+        margin: 24px auto 16px;
+        width: 160px;
+        height: 64px;
+        border-radius: 32px;
+        background: var(--l1);
+        color: var(--on-line);
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .ln {
+        height: 14px;
+        border-radius: 7px;
+        background: var(--rule);
+        margin: 12px 10px;
+      }
+      #ok-list .ln {
+        background: var(--t4);
+      }
+      #lists {
+        position: relative;
+      }
+      #ok-list {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+      }
+      #api { left: 676px; top: 300px; width: 280px; }
+      #db { left: 812px; top: 470px; width: 290px; }
+      #db b { font-size: 31px; }
+      #cloud {
+        position: absolute;
+        left: 452px;
+        top: 410px;
+        width: 168px;
+        text-align: center;
+        font-size: 24px;
+        color: var(--muted);
+      }
+      #cloud .c {
+        width: 112px;
+        height: 112px;
+        margin: 0 auto 8px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .pkt {
+        position: absolute;
+        padding: 10px 18px;
+        border-radius: 14px;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        white-space: nowrap;
+        color: var(--tile-ink);
+      }
+      #req { left: 300px; top: 360px; background: var(--t1); }
+      #q { left: 860px; top: 420px; background: var(--t3); }
+      #res { left: 720px; top: 600px; background: var(--t4); }
+      #steps {
+        position: absolute;
+        left: 72px;
+        top: 716px;
+        width: 1056px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .st {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .st i {
+        display: inline-grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--bg);
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="cliente" data-start="0" data-duration="10" data-width="1200" data-height="900">
+      <div id="scene" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <div id="title" class="d">Qué pasa cuando tocás un botón</div>
+        <div id="sub">Cliente y servidor conversan por internet en milisegundos.</div>
+
+        <div class="zone" id="z-front"></div>
+        <div class="zone" id="z-back"></div>
+        <div class="zone-t" id="zt-front">Front-end (cliente)</div>
+        <div class="zone-t" id="zt-back">Back-end (servidor)</div>
+
+        <div class="box" id="phone">
+          <div id="btn">Ver notas</div>
+          <div id="lists"><div id="empty-list"><div class="ln"></div><div class="ln"></div><div class="ln"></div></div><div id="ok-list"><div class="ln"></div><div class="ln"></div><div class="ln"></div></div></div>
+        </div>
+
+        <div id="cloud"><div class="c">www</div>internet</div>
+
+        <div class="box" id="api"><b>API</b><span>Python, Java, Node.js</span></div>
+        <div class="box" id="db"><b>Base de datos</b><span>PostgreSQL, MongoDB</span></div>
+
+        <div class="pkt" id="req">Pedido: GET /notas</div>
+        <div class="pkt" id="q">Consulta SQL</div>
+        <div class="pkt" id="res">Respuesta: 200 OK</div>
+
+        <div id="steps">
+          <div class="st"><i>1</i>Tocás el botón y la app arma un pedido.</div>
+          <div class="st"><i>2</i>El servidor lo recibe y valida quién sos.</div>
+          <div class="st"><i>3</i>Busca los datos en la base.</div>
+          <div class="st"><i>4</i>Responde y la pantalla se actualiza.</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.fromTo("#sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo(".zone", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.15 }, 0.7);
+      tl.fromTo(".zone-t", { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.15 }, 0.9);
+      tl.fromTo("#phone, #cloud, #api, #db", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.15, ease: "power3.out" }, 1.1);
+      tl.fromTo(".pkt", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+
+      // 1. Toque y pedido
+      tl.to("#btn", { scale: 0.9, duration: 0.12, yoyo: true, repeat: 1 }, 2.2);
+      tl.fromTo(".st:nth-child(1)", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, 2.2);
+      tl.fromTo("#req", { opacity: 0, x: 0, y: 0 }, { opacity: 1, duration: 0.2 }, 2.45);
+      tl.to("#req", { x: 400, y: -40, duration: 1.0, ease: "power2.inOut" }, 2.6);
+      tl.to("#cloud .c", { scale: 1.12, duration: 0.2, yoyo: true, repeat: 1 }, 3.0);
+      tl.to("#req", { opacity: 0, duration: 0.2 }, 3.6);
+      // 2. Servidor
+      tl.set("#api", { borderColor: "var(--l2)" }, 3.6);
+      tl.fromTo(".st:nth-child(2)", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, 3.7);
+      // 3. Base de datos
+      tl.fromTo("#q", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 }, 4.3);
+      tl.to("#q", { y: 60, duration: 0.6, ease: "power2.inOut" }, 4.6);
+      tl.set("#db", { borderColor: "var(--l2)" }, 5.1);
+      tl.to("#q", { opacity: 0, duration: 0.2 }, 5.2);
+      tl.fromTo(".st:nth-child(3)", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, 4.5);
+      // 4. Respuesta
+      tl.fromTo("#res", { opacity: 0, x: 0 }, { opacity: 1, duration: 0.2 }, 5.6);
+      tl.to("#res", { x: -460, y: -40, duration: 1.1, ease: "power2.inOut" }, 5.8);
+      tl.to("#res", { opacity: 0, duration: 0.2 }, 6.9);
+      tl.to("#empty-list", { opacity: 0, duration: 0.2 }, 6.9);
+      tl.set("#ok-list", { opacity: 1 }, 7.0);
+      tl.fromTo(".st:nth-child(4)", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, 6.0);
+      tl.set("#phone", { borderColor: "var(--yes)" }, 7.0);
+
+      window.__timelines["cliente"] = tl;
+      tl.seek(0);
+      if (window.__mgBridge) window.__mgBridge("cliente", tl);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=900" />
+    <title>Cuánto dura cada título</title>
+    <link rel="stylesheet" href="mg.css" />
+    <script src="mg-embed.js"></script>
+    <script src="gsap.min.js"></script>
+    <style>
+      #title {
+        position: absolute;
+        left: 72px;
+        top: 48px;
+        font-size: 64px;
+      }
+      #sub {
+        position: absolute;
+        left: 72px;
+        top: 134px;
+        font-size: 30px;
+        color: var(--muted);
+      }
+      /* Plot: 0 a 10 años entre x=340 y x=1128 (78.8 px por año) */
+      #plot {
+        position: absolute;
+        left: 0;
+        top: 210px;
+        width: 1200px;
+        height: 560px;
+      }
+      .grid {
+        position: absolute;
+        top: 0;
+        height: 540px;
+        border-left: 1px dashed var(--rule);
+      }
+      .yr {
+        position: absolute;
+        top: 548px;
+        font-size: 24px;
+        color: var(--muted);
+        white-space: nowrap;
+        transform: translateX(-50%);
+      }
+      .row {
+        position: absolute;
+        left: 72px;
+        width: 1056px;
+        height: 72px;
+      }
+      .name {
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 250px;
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: -0.02em;
+      }
+      .bar {
+        position: absolute;
+        top: 8px;
+        height: 56px;
+        border-radius: 4px 14px 14px 4px;
+        background: var(--c);
+      }
+      .bar.soft {
+        opacity: 0.45;
+        border-radius: 0 14px 14px 0;
+      }
+      .val {
+        position: absolute;
+        top: 18px;
+        font-size: 26px;
+        white-space: nowrap;
+        color: var(--ink);
+      }
+      .mid {
+        position: absolute;
+        top: 16px;
+        width: 4px;
+        height: 40px;
+        border-radius: 2px;
+        background: var(--tile-ink);
+      }
+      .mid-t {
+        position: absolute;
+        top: 22px;
+        font-size: 22px;
+        font-weight: 700;
+        white-space: nowrap;
+        color: var(--tile-ink);
+      }
+      #r1 { top: 0; --c: var(--t5); }
+      #r2 { top: 90px; --c: var(--t1); }
+      #r3 { top: 180px; --c: var(--t2); }
+      #r4 { top: 270px; --c: var(--t1); }
+      #r5 { top: 360px; --c: var(--t3); }
+      #r6 { top: 450px; --c: var(--t4); }
+      #note {
+        position: absolute;
+        left: 72px;
+        top: 812px;
+        width: 1056px;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="titulos" data-start="0" data-duration="10" data-width="1200" data-height="900">
+      <div id="scene" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <div id="title" class="d">Cuánto dura cada título</div>
+        <div id="sub">Duración teórica en años. La barra clara es el rango habitual.</div>
+
+        <div id="plot">
+          <div class="grid" style="left:340px"></div>
+          <div class="grid" style="left:497.6px"></div>
+          <div class="grid" style="left:655.2px"></div>
+          <div class="grid" style="left:812.8px"></div>
+          <div class="grid" style="left:970.4px"></div>
+          <div class="grid" style="left:1128px"></div>
+          <div class="yr" style="left:340px">0</div>
+          <div class="yr" style="left:497.6px">2</div>
+          <div class="yr" style="left:655.2px">4</div>
+          <div class="yr" style="left:812.8px">6</div>
+          <div class="yr" style="left:970.4px">8</div>
+          <div class="yr" style="left:1128px">10 años</div>
+
+          <!-- x de cada barra relativo a .row (left 72): año a = 268 + a*78.8 -->
+          <div class="row" id="r1"><div class="name">Diplomatura</div><div class="bar" style="left:268px;width:39px"></div><div class="bar soft" style="left:307px;width:39px"></div><div class="val" style="left:362px">meses a 1 año</div></div>
+          <div class="row" id="r2"><div class="name">Tecnicatura</div><div class="bar" style="left:268px;width:197px"></div><div class="bar soft" style="left:465px;width:39px"></div><div class="val" style="left:520px">2,5 a 3 años</div></div>
+          <div class="row" id="r3"><div class="name">Profesorado</div><div class="bar" style="left:268px;width:315px"></div><div class="bar soft" style="left:583px;width:79px"></div><div class="val" style="left:678px">4 a 5 años</div></div>
+          <div class="row" id="r4"><div class="name">Licenciatura</div><div class="bar" style="left:268px;width:315px"></div><div class="bar soft" style="left:583px;width:79px"></div><div class="mid" style="left:463px"></div><div class="mid-t" style="left:476px">intermedio</div><div class="val" style="left:678px">4 a 5 años</div></div>
+          <div class="row" id="r5"><div class="name">Ingeniería</div><div class="bar" style="left:268px;width:394px"></div><div class="bar soft" style="left:662px;width:79px"></div><div class="mid" style="left:502px"></div><div class="mid-t" style="left:515px">analista</div><div class="val" style="left:757px">5 a 6 años</div></div>
+          <div class="row" id="r6"><div class="name">Posgrado</div><div class="bar" style="left:662px;width:158px"></div><div class="bar soft" style="left:820px;width:236px"></div><div class="val" style="left:300px;color:var(--muted)">empieza después del grado</div></div>
+        </div>
+
+        <div id="note" class="d">Lo que dura en el plan no siempre es lo que dura en la realidad.</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.fromTo("#sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo(".grid", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.5, stagger: 0.05 }, 0.7);
+      tl.fromTo(".yr", { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.05 }, 0.9);
+      ["#r1", "#r2", "#r3", "#r4", "#r5", "#r6"].forEach(function (id, i) {
+        const t = 1.4 + i * 0.85;
+        tl.fromTo(id + " .name", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, t);
+        tl.fromTo(id + " .bar:not(.soft)", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, t + 0.1);
+        tl.fromTo(id + " .bar.soft", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, t + 0.65);
+        tl.fromTo(id + " .mid, " + id + " .mid-t", { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.7);
+        tl.fromTo(id + " .val", { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.8);
+      });
+      tl.fromTo("#note", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 7.0);
+
+      window.__timelines["titulos"] = tl;
+      tl.seek(0);
+      if (window.__mgBridge) window.__mgBridge("titulos", tl);
+    </script>
+  </body>
+</html>
