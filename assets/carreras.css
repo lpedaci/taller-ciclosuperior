@@ -1436,3 +1436,33 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
+/* Hero sobre un panel propio: el cartel con las flechas no se pierde contra el fondo */
+.hero--cuaderno .cq-in {
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+  padding-inline: clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: var(--r-lg);
+  background-color: color-mix(in srgb, var(--l1) 24%, var(--surface));
+  background-image: radial-gradient(color-mix(in srgb, var(--l1) 40%, transparent) 1.2px, transparent 1.3px);
+  background-size: 1.4rem 1.4rem;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--l1) 22%, transparent);
+}
+.hero--cuaderno .cq-page {
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+@media (max-width: 559px) {
+  .hero--cuaderno .cq-in {
+    padding-inline: 0.9rem;
+  }
+  .hero--cuaderno .cq-page {
+    padding-bottom: 2.25rem;
+  }
+}
+
+/* Texto de presentación del mapa a todo el ancho */
+.mapa-lead {
+  max-width: none;
+}
+.hero--cuaderno .cq-tag {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--on-deep) 18%, transparent), 0 14px 22px -16px rgba(31, 31, 36, 0.6);
+}
