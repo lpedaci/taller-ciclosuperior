@@ -289,27 +289,31 @@
   var escala = $("#escala");
   if (escala) {
     var out = $("#escala-out");
-    var fmt = function (n) { return String(Math.round(n * 10) / 10).replace(".", ","); };
     var readCar = function (car) {
       var name = $("#car-" + car).value.trim();
       var q1 = $('input[name="' + car + '-q1"]:checked', escala), q2 = $('input[name="' + car + '-q2"]:checked', escala);
-      return { car: car.toUpperCase(), name: name || "Carrera " + car.toUpperCase(), score: q1 && q2 ? (+q1.value + +q2.value) / 2 : null };
+      return { car: car.toUpperCase(), name: name || "Carrera " + car.toUpperCase(), score: q1 && q2 ? (+q1.value + +q2.value) / 2 : null, gap: q1 && q2 ? Math.abs(q1.value - q2.value) : 0 };
     };
+    /* La escala no busca un promedio sino una elección consistente con lo investigado:
+       8 o más es "voy por esta", 6 o menos es "hoy no", y dos respuestas muy distintas piden volver a investigar. */
+    var side = function (r) { return r.score >= 8 ? "up" : r.score <= 6 ? "down" : "mid"; };
     var verdict = function () {
       var a = readCar("a"), b = readCar("b");
-      if (a.score === null && b.score === null) { out.textContent = "Escribí dos carreras y puntuá las dos preguntas para cada una."; return; }
+      if (a.score === null && b.score === null) { out.textContent = "Escribí las dos carreras que investigaste y respondé las dos preguntas de cada una con lo primero que te salga."; return; }
+      var odd = [a, b].filter(function (r) { return r.score !== null && (r.gap >= 4 || side(r) === "mid"); });
+      if (odd.length) {
+        out.textContent = "Tus dos respuestas sobre " + odd[0].name + " no van para el mismo lado. Antes de decidir, volvé a lo que investigaste: el plan, la duración, lo que te contaron.";
+        return;
+      }
       if (a.score === null || b.score === null) {
         var done = a.score === null ? b : a;
-        out.textContent = done.name + ": " + fmt(done.score) + ". Ahora puntuá la otra carrera.";
+        out.textContent = done.name + (side(done) === "up" ? " queda arriba del 8." : " queda en 6 o menos.") + " Ahora respondé la otra carrera, sin pensarlo de más.";
         return;
       }
       var hi = a.score >= b.score ? a : b, lo = hi === a ? b : a;
-      var txt = a.name + ": " + fmt(a.score) + ". " + b.name + ": " + fmt(b.score) + ". ";
-      if (a.score === b.score) txt += "Empate: buscá una tercera pregunta que las separe, como cuál te imaginás cursando un martes a la noche.";
-      else if (hi.score >= 8 && lo.score <= 6) txt += "Hoy tu intención está clara: " + hi.name + ".";
-      else if (hi.score < 6) txt += "Ninguna de las dos te entusiasma mucho todavía. Puede ser buen momento para probar un curso corto antes de decidir.";
-      else txt += hi.name + " va adelante, pero por poco. Compará sus planes de estudio (parada 6) antes de decidir.";
-      out.textContent = txt;
+      if (side(a) === "up" && side(b) === "up") out.textContent = a.score === b.score ? "Las dos quedaron arriba del 8 y empatadas. Elegí la que te salga primero: esa es tu respuesta." : "Las dos te convocan, pero " + hi.name + " va primero. Sostené esa elección; " + lo.name + " puede ser un curso o una segunda etapa.";
+      else if (side(a) === "down" && side(b) === "down") out.textContent = "Ninguna llega al 8. Hoy ninguna de las dos es tu camino: buscá otras opciones y volvé a la escala cuando las hayas investigado.";
+      else out.textContent = "Tu elección es clara: " + hi.name + ". Sé consistente con ella: anotate y sostenela.";
     };
     var saveEscala = function () {
       var d = {};
