@@ -110,7 +110,7 @@
       <p class="top-now" id="top-now" aria-hidden="true"><span class="top-now-in"><span class="now-tag"></span><span class="now-title">Charla de carreras</span></span></p>
       <p class="top-count"><span class="meter" aria-hidden="true"><i></i></span><span><span class="done-count">0</span> de 10 <small>paradas</small></span></p>
       <button type="button" class="top-btn top-btn--icon theme-btn" id="theme-btn" aria-label="Cambiar a tema oscuro"><span class="i-moon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></span><span class="i-sun"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg></span></button>
-      <button type="button" class="top-btn menu-btn" id="menu-btn" aria-controls="rail" aria-expanded="false"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-list"/></svg><span>Paradas</span></button>
+      <button type="button" class="top-btn menu-btn" id="menu-btn" aria-controls="rail" aria-expanded="false" aria-label="Paradas"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-list"/></svg><span>Paradas</span></button>
     </div>
   </div>
 </header>
@@ -548,7 +548,7 @@
         <button type="button" role="tab" id="tab-t6" aria-controls="t6" aria-selected="false" tabindex="-1">Diplomatura</button>
       </div>
 
-      <div class="tpanel" id="t1" role="tabpanel" aria-labelledby="tab-t1">
+      <div class="tpanel" id="t1" role="tabpanel" tabindex="0" aria-labelledby="tab-t1">
         <p class="tpanel-kicker"><span class="tnum">01</span> Pregrado · 2,5 a 3 años</p>
         <ul class="list">
           <li>Te dan <strong>herramientas concretas</strong> para entrar rápido al mundo laboral con una calificación especializada.</li>
@@ -559,7 +559,7 @@
         <ul class="chips chips--static"><li><span>Desarrollo de Software</span></li><li><span>Programación</span></li><li><span>Ciencia de Datos e Inteligencia Artificial</span></li><li><span>Ciberseguridad</span></li><li><span>Redes Informáticas</span></li><li><span>Soporte e Infraestructura</span></li><li><span>Desarrollo Web</span></li><li><span>Diseño y Programación de Videojuegos</span></li><li><span>Animación</span></li><li><span>Informática de Gestión</span></li></ul>
         <p class="tpanel-ex"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-lightbulb"/></svg> Ejemplo: la Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial de la Ciudad dura 2 años y medio, se cursa de tarde o de noche y tiene becas (Gobierno de la Ciudad de Buenos Aires, s.f.).</p>
       </div>
-      <div class="tpanel" id="t2" role="tabpanel" aria-labelledby="tab-t2" hidden>
+      <div class="tpanel" id="t2" role="tabpanel" tabindex="0" aria-labelledby="tab-t2" hidden>
         <p class="tpanel-kicker"><span class="tnum">02</span> Pregrado o grado · 4 a 5 años</p>
         <ul class="list">
           <li>Forma <strong>docentes críticos y reflexivos</strong>, capaces de acompañar y facilitar la enseñanza de su área en las instituciones educativas.</li>
@@ -570,7 +570,7 @@
         <ul class="chips chips--static"><li><span>Programación</span></li><li><span>Sistemas operativos</span></li><li><span>Redes</span></li><li><span>Diseño web</span></li><li><span>Inteligencia artificial</span></li><li><span>Pedagogía</span></li><li><span>Didáctica</span></li><li><span>Psicología</span></li><li><span>ESI</span></li><li><span>Materiales didácticos</span></li></ul>
         <p class="tpanel-ex"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-lightbulb"/></svg> Dónde: el ISP Joaquín V. González ofrece el Profesorado de Educación Superior en Informática, y el INSPT-UTN, profesorados técnicos con seminario de ingreso en octubre y noviembre (INSPT-UTN, 2026).</p>
       </div>
-      <div class="tpanel" id="t3" role="tabpanel" aria-labelledby="tab-t3" hidden>
+      <div class="tpanel" id="t3" role="tabpanel" tabindex="0" aria-labelledby="tab-t3" hidden>
         <p class="tpanel-kicker"><span class="tnum">03</span> Grado · 4 a 5 años</p>
         <ul class="list">
           <li>Te forma para trabajar en un <strong>ámbito determinado</strong> con base teórica y práctica.</li>
@@ -580,7 +580,7 @@
         <p class="tpanel-sub">Algunas licenciaturas del área</p>
         <ul class="chips chips--static"><li><span>Informática</span></li><li><span>Sistemas de Información</span></li><li><span>Gestión de Tecnología Informática</span></li><li><span>Ciencia de Datos</span></li><li><span>Administración de Sistemas</span></li><li><span>Redes y Telecomunicaciones</span></li><li><span>Bioinformática</span></li><li><span>Diseño Multimedial</span></li><li><span>Diseño y Producción de Videojuegos</span></li><li><span>Comunicación Digital e Interactiva</span></li></ul>
       </div>
-      <div class="tpanel" id="t4" role="tabpanel" aria-labelledby="tab-t4" hidden>
+      <div class="tpanel" id="t4" role="tabpanel" tabindex="0" aria-labelledby="tab-t4" hidden>
         <p class="tpanel-kicker"><span class="tnum">04</span> Grado · 5 años o más</p>
         <ul class="list">
           <li>Estudia y aplica <strong>conocimientos científicos y técnicos</strong> para resolver problemas reales.</li>
@@ -591,7 +591,7 @@
         <ul class="chips chips--static"><li><span>Informática (UBA, ITBA, UCA)</span></li><li><span>Sistemas de Información (UTN)</span></li><li><span>Computación (UNTREF)</span></li><li><span>Sistemas Informáticos (UAI)</span></li><li><span>Telecomunicaciones (Instituto Balseiro)</span></li></ul>
         <p class="tpanel-ex"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg> Las vemos en detalle en la parada 7.</p>
       </div>
-      <div class="tpanel" id="t5" role="tabpanel" aria-labelledby="tab-t5" hidden>
+      <div class="tpanel" id="t5" role="tabpanel" tabindex="0" aria-labelledby="tab-t5" hidden>
         <p class="tpanel-kicker"><span class="tnum">05</span> Posgrado · después del grado</p>
         <p>Reúnen actividades de actualización, reflexión y capacitación sobre temas específicos de cada campo. Se piden con un título de grado o de nivel superior no universitario de al menos cuatro años; por excepción, algunas aceptan experiencia laboral comprobable.</p>
         <div class="table-wrap">
@@ -610,7 +610,7 @@
         <p class="tpanel-sub">Algunos temas de posgrado del área</p>
         <ul class="chips chips--static"><li><span>Ciberseguridad</span></li><li><span>Criptografía</span></li><li><span>Ciencia de Datos</span></li><li><span>Inteligencia Artificial</span></li><li><span>Derecho Informático</span></li><li><span>Robótica</span></li><li><span>Tecnología Educativa</span></li></ul>
       </div>
-      <div class="tpanel" id="t6" role="tabpanel" aria-labelledby="tab-t6" hidden>
+      <div class="tpanel" id="t6" role="tabpanel" tabindex="0" aria-labelledby="tab-t6" hidden>
         <p class="tpanel-kicker"><span class="tnum">06</span> Formación continua · meses a 1 año</p>
         <ul class="list">
           <li>Son cursos con un plan de estudios, pensados para <strong>capacitarte o actualizarte</strong> en un tema puntual.</li>
@@ -792,7 +792,7 @@ Me quedo con: ______ porque ______</pre>
         <p>Es el <strong>objetivo</strong> que querés alcanzar: la finalidad, la meta de una acción.</p>
         <p>Está relacionado con la necesidad humana de encontrarle un <strong>significado</strong> y una finalidad a lo que hacemos.</p>
       </div>
-      <p>Cuando ya investigaste las carreras, comparaste planes y sabés qué títulos existen, llega el momento de reconocer qué <strong>porcentaje de intención</strong> tenés por cada una. No hace falta darle mil vueltas: la respuesta ya está en lo que investigaste y entendiste. Por eso se responde rápido, con lo primero que sale, y en una escala del 1 al 10 donde el 7 no existe.</p>
+      <p>Cuando ya investigaste las carreras, comparaste planes y sabés qué títulos existen, llega el momento de reconocer qué <strong>porcentaje de intención</strong> tenés por cada una. No hace falta darle mil vueltas: la respuesta ya está en lo que investigaste y entendiste. Por eso se responde rápido, con lo primero que sale, y en una escala del 1 al 10 donde el “medio” no existe.</p>
       <div class="pair">
         <div><p class="pair-title">Respondé con lo que ya sabés</p><p>El número tiene que ser <strong>consistente</strong> con lo que averiguaste: lo que leíste del plan, lo que te contaron, lo que probaste. Si te descubrís dudando mucho, no es momento de puntuar: es momento de volver a investigar.</p></div>
         <div><p class="pair-title">Evitá los intermedios</p><p>El 7 es el número cómodo, el que permite no decidir. Sin él, cada carrera queda de un lado: <strong>6 o menos</strong>, hoy no es para vos; <strong>8 o más</strong>, es un camino que querés seguir.</p></div>
@@ -805,17 +805,18 @@ Me quedo con: ______ porque ______</pre>
       <div class="escala" id="escala">
         <div class="escala-bar"><p><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-sliders"/></svg> Tu escala: respondé rápido, sin sobrepensar</p><button type="button" class="reset escala-reset" id="escala-reset"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-trash"/></svg><span>Borrar</span></button></div>
         <div class="escala-body">
+          <p class="escala-help" id="escala-help">Un mismo número no se puede usar en las dos carreras para la misma pregunta. Para liberar un número, tocalo de nuevo o, con el teclado, apretá Suprimir.</p>
           <fieldset class="escala-row" data-car="a">
             <legend class="escala-name"><span class="escala-tag">Carrera A</span></legend>
             <label class="escala-input"><span class="sr-only">Nombre de la carrera A</span><input type="text" id="car-a" maxlength="60" autocomplete="off" placeholder="Ej.: Ingeniería en Sistemas"></label>
-            <div class="escala-q" role="radiogroup" aria-label="¿Cuánto me gustaría hacer esto? Carrera A, del 1 al 10 sin el 7"><p>¿Cuánto me gustaría hacer esto?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="a-q1" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="a-q1" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="a-q1" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="a-q1" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="a-q1" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="a-q1" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="a-q1" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="a-q1" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="a-q1" value="10"><span>10</span></label></div></div>
-            <div class="escala-q" role="radiogroup" aria-label="¿Qué tanto me veo haciéndolo? Carrera A, del 1 al 10 sin el 7"><p>¿Qué tanto me veo haciéndolo?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="a-q2" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="a-q2" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="a-q2" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="a-q2" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="a-q2" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="a-q2" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="a-q2" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="a-q2" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="a-q2" value="10"><span>10</span></label></div></div>
+            <div class="escala-q" role="radiogroup" aria-describedby="escala-help" aria-label="¿Cuánto me gustaría hacer esto? Carrera A, del 1 al 10 sin el 7"><p>¿Cuánto me gustaría hacer esto?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="a-q1" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="a-q1" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="a-q1" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="a-q1" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="a-q1" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="a-q1" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="a-q1" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="a-q1" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="a-q1" value="10"><span>10</span></label></div></div>
+            <div class="escala-q" role="radiogroup" aria-describedby="escala-help" aria-label="¿Qué tanto me veo haciéndolo? Carrera A, del 1 al 10 sin el 7"><p>¿Qué tanto me veo haciéndolo?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="a-q2" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="a-q2" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="a-q2" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="a-q2" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="a-q2" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="a-q2" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="a-q2" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="a-q2" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="a-q2" value="10"><span>10</span></label></div></div>
           </fieldset>
           <fieldset class="escala-row" data-car="b">
             <legend class="escala-name"><span class="escala-tag">Carrera B</span></legend>
             <label class="escala-input"><span class="sr-only">Nombre de la carrera B</span><input type="text" id="car-b" maxlength="60" autocomplete="off" placeholder="Ej.: Tecnicatura en Ciencia de Datos"></label>
-            <div class="escala-q" role="radiogroup" aria-label="¿Cuánto me gustaría hacer esto? Carrera B, del 1 al 10 sin el 7"><p>¿Cuánto me gustaría hacer esto?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="b-q1" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="b-q1" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="b-q1" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="b-q1" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="b-q1" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="b-q1" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="b-q1" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="b-q1" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="b-q1" value="10"><span>10</span></label></div></div>
-            <div class="escala-q" role="radiogroup" aria-label="¿Qué tanto me veo haciéndolo? Carrera B, del 1 al 10 sin el 7"><p>¿Qué tanto me veo haciéndolo?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="b-q2" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="b-q2" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="b-q2" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="b-q2" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="b-q2" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="b-q2" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="b-q2" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="b-q2" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="b-q2" value="10"><span>10</span></label></div></div>
+            <div class="escala-q" role="radiogroup" aria-describedby="escala-help" aria-label="¿Cuánto me gustaría hacer esto? Carrera B, del 1 al 10 sin el 7"><p>¿Cuánto me gustaría hacer esto?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="b-q1" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="b-q1" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="b-q1" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="b-q1" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="b-q1" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="b-q1" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="b-q1" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="b-q1" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="b-q1" value="10"><span>10</span></label></div></div>
+            <div class="escala-q" role="radiogroup" aria-describedby="escala-help" aria-label="¿Qué tanto me veo haciéndolo? Carrera B, del 1 al 10 sin el 7"><p>¿Qué tanto me veo haciéndolo?</p><div class="escala-nums"><label class="escala-n"><input type="radio" name="b-q2" value="1"><span>1</span></label><label class="escala-n"><input type="radio" name="b-q2" value="2"><span>2</span></label><label class="escala-n"><input type="radio" name="b-q2" value="3"><span>3</span></label><label class="escala-n"><input type="radio" name="b-q2" value="4"><span>4</span></label><label class="escala-n"><input type="radio" name="b-q2" value="5"><span>5</span></label><label class="escala-n"><input type="radio" name="b-q2" value="6"><span>6</span></label><span class="escala-n escala-n--no" aria-hidden="true">7</span><label class="escala-n"><input type="radio" name="b-q2" value="8"><span>8</span></label><label class="escala-n"><input type="radio" name="b-q2" value="9"><span>9</span></label><label class="escala-n"><input type="radio" name="b-q2" value="10"><span>10</span></label></div></div>
           </fieldset>
           <p class="escala-out" id="escala-out" aria-live="polite">Escribí las dos carreras que investigaste y respondé las dos preguntas de cada una con lo primero que te salga.</p>
         </div>
@@ -824,7 +825,7 @@ Me quedo con: ______ porque ______</pre>
       <h4>02. Miedos y dudas: ¿fracaso?</h4>
       <div class="board">
         <figure class="postit postit--blue"><blockquote>“El <em>miedo</em> y la <em>duda</em> matan más sueños que el propio fracaso.”</blockquote><figcaption>Adaptado de Kassem (2011)</figcaption></figure>
-        <div class="chain" aria-label="Los miedos se transforman en excusas, y las excusas tapan los éxitos.">
+        <div class="chain" role="img" aria-label="Los miedos se transforman en excusas, y las excusas tapan los éxitos.">
           <span class="chain-step">Miedos</span>
           <span class="chain-arrow" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-caret-down"/></svg></span>
           <span class="chain-step">Excusas</span>

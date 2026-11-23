@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Charla de carreras: componentes propios de este sitio.
    Se apoya en los tokens de styles.css (colores, radios, tipografías y curva --ease).
    Notas adhesivas, cuaderno y escala retoman la estética de las diapositivas originales. */
@@ -424,7 +425,7 @@
 }
 .status--open::before {
   background: var(--yes);
-  animation: breathe-dot 1.8s var(--ease) infinite;
+  animation: breathe-dot 1.8s var(--ease) 2; /* WCAG 2.2.2: se detiene antes de 5 s */
 }
 .status--soon {
   background: var(--l1-soft);
@@ -784,7 +785,7 @@
   font-family: var(--display);
   font-weight: 600;
 }
-.escala-bar .ic {
+.escala-bar p .ic {
   color: var(--t3);
 }
 .escala-body {
@@ -826,7 +827,8 @@
   min-height: 2.75rem;
   margin-bottom: 0.75rem;
   padding: 0.4rem 0.9rem;
-  border: 1.5px solid var(--rule);
+  /* WCAG 1.4.11: el borde del campo llega a 3:1 contra el fondo en los dos temas */
+  border: 1.5px solid color-mix(in srgb, var(--muted) 72%, var(--surface-2));
   border-radius: 0.8rem;
   background: var(--surface-2);
   color: var(--ink);
@@ -835,6 +837,19 @@
 .escala-input input:focus {
   border-color: var(--lc);
   outline: none;
+}
+/* WCAG 2.4.7: el cambio de color del borde solo no alcanza como foco visible con teclado */
+.escala-input input:focus-visible {
+  outline: 3px solid var(--l1);
+  outline-offset: 2px;
+}
+.escala-help {
+  grid-column: 1 / -1;
+  max-width: var(--measure);
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 .escala-q p {
   margin: 0 0 0.4rem;
@@ -864,7 +879,7 @@
   place-items: center;
   aspect-ratio: 1;
   min-height: 2.2rem;
-  border: 2px solid color-mix(in srgb, var(--lc) 45%, transparent);
+  border: 2px solid color-mix(in srgb, var(--lc) 78%, var(--surface)); /* WCAG 1.4.11: 3:1 */
   border-radius: 50%;
   background: var(--surface);
   font-family: var(--display);
@@ -907,11 +922,21 @@
   font-family: var(--display);
   font-weight: 500;
 }
-.escala-reset {
-  min-height: 2.25rem;
-  border-color: transparent;
-  background: var(--deep-soft);
-  color: var(--on-deep);
+/* Colores con significado en los botones:
+   borrar (acción destructiva) e "incorrecto" en rojo, "correcto" en verde.
+   Texto e ícono toman el mismo color: --no y --yes superan 4,5:1 sobre --surface en los dos temas. */
+button.reset {
+  border-color: color-mix(in srgb, var(--no) 45%, var(--surface));
+  color: var(--no);
+}
+button.reset:hover {
+  border-color: var(--no);
+  background: var(--no-soft);
+}
+button.copy.is-failed {
+  border-color: var(--no);
+  background: var(--no);
+  color: var(--on-line);
 }
 @media (max-width: 767px) {
   .escala-body {
@@ -1425,7 +1450,7 @@
   content: none;
 }
 .rail-list li.line-1 + li.line-2::before {
-  content: "Línea 2";
+  content: "L\00EDnea 2";
   display: block;
   margin: 1rem 0 0.3rem;
   padding-inline: 0.6rem;

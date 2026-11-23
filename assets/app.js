@@ -152,10 +152,10 @@
   function copyFeedback(btn, ok) {
     var label = $("span", btn), text = btn.getAttribute("data-label") || label.textContent;
     btn.setAttribute("data-label", text);
-    label.textContent = ok ? "Copiada" : "No se pudo copiar"; btn.classList.toggle("is-copied", ok);
+    label.textContent = ok ? "Copiada" : "No se pudo copiar"; btn.classList.toggle("is-copied", ok); btn.classList.toggle("is-failed", !ok);
     announce(ok ? "Plantilla copiada al portapapeles." : "No se pudo copiar la plantilla.");
     clearTimeout(btn._t);
-    btn._t = setTimeout(function () { label.textContent = text; btn.classList.remove("is-copied"); }, 1800);
+    btn._t = setTimeout(function () { label.textContent = text; btn.classList.remove("is-copied", "is-failed"); }, 1800);
   }
   function copyText(btn, t) {
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(function () { copyFeedback(btn, true); }, function () { copyFeedback(btn, fallbackCopy(t)); });
@@ -378,7 +378,9 @@
         e.target.checked = false; update(); e.preventDefault();
       }
     });
-    escala.addEventListener("input", update);
+    /* Mientras se escribe el nombre solo se guarda: el veredicto (región aria-live) se actualiza
+       al salir del campo, para no anunciar un mensaje nuevo con cada tecla */
+    escala.addEventListener("input", function (e) { if (e.target.type === "text") saveEscala(); else update(); });
     escala.addEventListener("change", update);
     $("#escala-reset").addEventListener("click", function () { state.escala = {}; save(state); window.__escalaLoad(); announce("Escala borrada."); });
     window.__escalaLoad();
@@ -391,7 +393,21 @@
     menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
   }
   if (menuBtn && rail) {
-    menuBtn.addEventListener("click", function () { setMenu(!rail.classList.contains("is-open")); });
+    /* Al abrir, el foco entra al panel (está lejos en el orden del documento y tapa el contenido);
+       si el foco sale del panel y del botón, el panel se cierra para no tapar lo que tiene el foco */
+    menuBtn.addEventListener("click", function () {
+      var open = !rail.classList.contains("is-open");
+      setMenu(open);
+      if (open) {
+        var target = $("a.is-current", rail) || $("a", rail);
+        if (target) target.focus();
+      }
+    });
+    rail.addEventListener("focusout", function (e) {
+      if (!rail.classList.contains("is-open")) return;
+      var to = e.relatedTarget;
+      if (to && !rail.contains(to) && to !== menuBtn) setMenu(false);
+    });
     rail.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && rail.classList.contains("is-open")) { setMenu(false); menuBtn.focus(); }
@@ -421,6 +437,13 @@
     var id = fig.getAttribute("data-mg");
     var frame = $(".mg-frame", fig), iframe = $("iframe", fig), btn = $(".mg-btn", fig), label = btn && $(".mg-label", btn);
     var f = { id: id, fig: fig, ready: false, started: false, visible: false, state: "idle" };
+    /* Los seis botones dicen "Reproducir": se suma el nombre de la animación para lectores de pantalla */
+    if (btn && iframe.title) {
+      var which = document.createElement("span");
+      which.className = "sr-only";
+      which.textContent = ": " + iframe.title.replace(/^Animación:\s*/, "");
+      btn.appendChild(which);
+    }
     f.send = function (msg) { msg.mg = id; if (f.ready) iframe.contentWindow.postMessage(msg, "*"); };
     f.set = function (s) {
       f.state = s; fig.setAttribute("data-state", s);

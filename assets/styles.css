@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Del aula al primer trabajo
    Dirección visual: panel de app educativa. Fondo lavanda, paneles blancos muy redondeados,
    mosaicos de color (lavanda para la línea 1, naranja para la línea 2, amarillo para las ideas clave)
@@ -1885,7 +1886,7 @@ button.copy.is-copied {
 }
 .rail-list li:first-child::before,
 .rail-list li:nth-child(6)::before {
-  content: "Línea 1";
+  content: "L\00EDnea 1";
   display: block;
   margin: 0.4rem 0 0.3rem;
   padding-inline: 0.6rem;
@@ -1897,7 +1898,7 @@ button.copy.is-copied {
   text-transform: uppercase;
 }
 .rail-list li:nth-child(6)::before {
-  content: "Línea 2";
+  content: "L\00EDnea 2";
   margin-top: 1rem;
 }
 .rail-list a {
@@ -2726,7 +2727,7 @@ details.drawer:not([open]):hover {
 }
 @media (prefers-reduced-motion: no-preference) {
   .drawer:not([open]) summary > .ic {
-    animation: nudge 2.6s var(--ease) infinite;
+    animation: nudge 2.6s var(--ease) 1; /* WCAG 2.2.2: se detiene antes de 5 s */
   }
   .drawer:not([open]) summary:hover > .ic {
     animation: none;
@@ -2754,7 +2755,7 @@ details.drawer {
     -webkit-mask-composite: xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
     pointer-events: none;
-    animation: drawer-glow 4.5s linear infinite;
+    animation: drawer-glow 4.5s linear 1; /* WCAG 2.2.2 */
   }
   details.drawer:not([open]):hover::before {
     animation-duration: 2.2s;
@@ -3486,7 +3487,7 @@ code {
     --i: 3;
   }
   .hero-copy::after {
-    animation: drift 16s ease-in-out infinite;
+    animation: drift 16s ease-in-out 1; /* WCAG 2.2.2: no queda en bucle */
   }
   .js .reveal {
     opacity: 0;
@@ -3504,7 +3505,7 @@ code {
     inset: -2px;
     border: 2px solid var(--tile);
     border-radius: 50%;
-    animation: breathe 2.4s var(--ease) infinite;
+    animation: breathe 2.4s var(--ease) 2; /* WCAG 2.2.2 */
   }
   .dot.is-pop {
     animation: pop 0.6s var(--ease);
