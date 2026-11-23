@@ -1507,8 +1507,7 @@ button.copy.is-failed {
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--on-deep) 18%, transparent), 0 14px 22px -16px rgba(31, 31, 36, 0.6);
 }
 
-/* Título del hero en azul */
-/* Azul de la paleta: un tono apagado para el título y un pastel (--t6) para los mosaicos */
+/* Azul de la paleta: --hero-blue (azul apagado, hoy sin uso) y un pastel (--t6) para los mosaicos */
 :root {
   --hero-blue: #3d64a3;
   --t6: #a9c9ee;
@@ -1523,8 +1522,9 @@ button.copy.is-failed {
   --hero-blue: #a9c4ec;
   --t6: #8fb2df;
 }
+/* Título del hero en negro (en tema oscuro, --ink es casi blanco para mantener el contraste) */
 .hero--cuaderno h1 {
-  color: var(--hero-blue);
+  color: var(--ink);
 }
 
 /* Animaciones: un poco más chicas y centradas en la parada */
