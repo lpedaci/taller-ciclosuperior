@@ -1587,13 +1587,15 @@ button.copy.is-failed {
 }
 .taller-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 26rem);
   grid-template-areas:
-    "top top"
-    "title cta"
-    "txt cta";
-  gap: 0.4rem 1.5rem;
+    "top shot"
+    "title shot"
+    "txt shot"
+    "cta shot";
+  gap: 0.4rem clamp(1.5rem, 4vw, 3rem);
   align-items: center;
+  align-content: center;
   padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3.5vw, 2.5rem);
   border-radius: var(--r-lg);
   background: var(--t4);
@@ -1606,6 +1608,26 @@ button.copy.is-failed {
 }
 .taller-card:active {
   transform: scale(0.99);
+}
+/* Vista del otro taller: su imagen para redes, como una postal apenas inclinada */
+.taller-shot {
+  grid-area: shot;
+  display: block;
+  overflow: hidden;
+  border: 4px solid var(--surface);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 22px 40px -24px rgba(20, 20, 40, 0.55);
+  transform: rotate(2deg);
+  transition: transform 0.5s var(--ease);
+}
+.taller-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.taller-card:hover .taller-shot {
+  transform: rotate(0deg) scale(1.02);
 }
 .taller-top {
   grid-area: top;
@@ -1642,6 +1664,8 @@ button.copy.is-failed {
 }
 .taller-cta {
   grid-area: cta;
+  justify-self: start;
+  margin-top: 0.75rem;
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -1658,14 +1682,14 @@ button.copy.is-failed {
   background: var(--t3);
   color: var(--tile-ink);
 }
-@media (max-width: 639px) {
+@media (max-width: 767px) {
   .taller-card {
     grid-template-columns: 1fr;
-    grid-template-areas: "top" "title" "txt" "cta";
+    grid-template-areas: "shot" "top" "title" "txt" "cta";
   }
-  .taller-cta {
-    justify-self: start;
-    margin-top: 0.5rem;
+  .taller-shot {
+    margin-bottom: 0.75rem;
+    transform: none;
   }
 }
 
