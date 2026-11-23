@@ -2271,7 +2271,7 @@ ul.list {
   margin-top: auto;
   padding-top: 0.7rem;
   font-size: 0.82rem;
-  opacity: 0.72;
+  opacity: 0.86; /* WCAG 1.4.3 en tema oscuro */
 }
 
 .pair,
@@ -3450,7 +3450,7 @@ code {
   grid-column: 1 / -1;
   grid-row: 3;
   margin: 0;
-  color: color-mix(in srgb, var(--on-deep) 48%, transparent);
+  color: color-mix(in srgb, var(--on-deep) 72%, transparent); /* WCAG 1.4.3: 4,5:1 en los dos temas */
   font-size: 0.85rem;
 }
 @media (max-width: 639px) {

@@ -74,7 +74,7 @@
 }
 .split-sub {
   margin: 0 0 0.45rem;
-  color: var(--muted);
+  color: color-mix(in srgb, var(--ink) 78%, transparent); /* --muted no llegaba a 4,5:1 sobre el fondo de color en tema oscuro */
   font-size: 0.95rem;
 }
 @media (max-width: 639px) {
@@ -180,6 +180,21 @@
 }
 .cal-plot {
   overflow-x: auto;
+}
+/* WCAG 2.1.1: en pantallas chicas el calendario se desliza; con tabindex se puede mover con las flechas */
+.cal-plot:focus-visible {
+  outline-offset: 4px;
+}
+.cal-hint {
+  display: none;
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+@media (max-width: 767px) {
+  .cal-hint {
+    display: block;
+  }
 }
 .cal-head,
 .cal-row {
@@ -726,7 +741,7 @@
 .postit figcaption {
   margin-top: 0.6rem;
   font-size: 0.85rem;
-  opacity: 0.75;
+  opacity: 0.88; /* WCAG 1.4.3 en tema oscuro */
 }
 .postit--yellow {
   --pi: var(--t3);

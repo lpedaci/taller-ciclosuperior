@@ -32,6 +32,21 @@ Extra (buena práctica de ARIA, no es un fallo de WCAG): los paneles de pestaña
 - **Botones con color según su significado:** Borrar y Borrar mi avance en rojo (`--no`, 5,98:1 en tema claro y 8,2:1 en oscuro), "Copiada" en verde (`--yes`) y "No se pudo copiar" en rojo. El ícono toma el mismo color que el texto.
 - **Escala:** la ayuda ocupa todo el ancho de la grilla, y el ícono del botón Borrar dejó de ser amarillo sobre blanco.
 
+### Segunda revisión: contraste de cada texto en pantalla y calendario en el celular
+
+Primero se midió el contraste de los colores de diseño (tokens). En esta segunda revisión se midió cada texto visible contra su fondo real, sumando la opacidad y los fondos semitransparentes, en los dos temas. Aparecieron casos que la medición de los tokens no mostraba:
+
+| Elemento | Antes | Corrección |
+|---|---|---|
+| Crédito del pie ("Webmaster y diseño…") | 4,38:1 en tema claro y 4,15:1 en oscuro | Color de texto al 72 % en lugar del 48 % |
+| Fuentes de los datos (`.fact-src`), en tema oscuro | 4,15:1 a 4,40:1 | Opacidad de 0,86 en lugar de 0,72 |
+| Subtítulos de universidades (`.split-sub`), en tema oscuro | 4,10:1 | Color de texto al 78 % en lugar de `--muted` |
+| Cita del post-it ("Adaptado de Kassem"), en tema oscuro | 4,44:1 | Opacidad de 0,88 en lugar de 0,75 |
+
+Después de los cambios, ningún texto queda por debajo de 4,5:1 en ninguno de los dos temas.
+
+**Calendario en el celular (2.1.1 Teclado, nivel A):** a 375 px el calendario mide unos 640 px y se desliza hacia los costados, pero el contenedor no recibía foco, así que con el teclado no se podía desplazar. Ahora tiene `tabindex="0"` y se mueve con las flechas. También se agregó una indicación visible en pantallas chicas: "Deslizá el calendario hacia los costados para ver todos los meses".
+
 ## Contraste medido
 
 Todos los pares de texto superan 4,5:1. Algunos ejemplos en tema claro: `--muted` sobre el fondo, 5,56; `--l1` sobre el fondo, 4,86; `--l2` sobre blanco, 5,02; etiquetas amarillas sobre carbón, 11,5. En tema oscuro, todos superan 6:1.
